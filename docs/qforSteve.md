@@ -3,8 +3,8 @@
  - Who are the stakeholders? (Boeing etc)
    - Anyone who has ties is a stakeholder
  - Who are the users?
-    - Who will be directly using the software? (School kids?)
-    - Who will be maintaining it/working on it after us if we choose not to continue
+    - Who will be directly using the software? (School kids?)  (junior-senior high school students)
+    - Who will be maintaining it/working on it after us if we choose not to continue (Steve or school,maybe?)
  - What licence can we use for the software, can we make it open source?
     - If we use AUTONAVx simulator licence requires us to open source code
  - Do you want any sort of data saved, for example saving a users code so they can pick up where they left off?
