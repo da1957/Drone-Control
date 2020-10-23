@@ -16,15 +16,18 @@
 - Stakeholders:
    - Steve - main lead
    - Boing - funding
-   - ILO
+   - ILO (Industrial Liason Office)
+   - SRAA (Student Recruitment Access and Admissions)
 
 - Users
    - Secondary school students (11-14)
    - Secondary school students (14-16)
    - A level students (16-18)
-
+   
 - Maintenance
    - Steve
+   - Programming outsourced to us or other comp sci students
+   - Boeing may outsource maintenance 
 
 - Licence
    - open source 
