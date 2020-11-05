@@ -48,6 +48,33 @@ User Stories:
 1. As the outreach lead I want the software to be accessible to users from age 11-16 so that a large range of students can take part (KS3 & KS4).
 2. As the outreach lead I want the website to run on recent Chrome, Firefox, Safari on Win/Mac desktop as to allow as many users as possible to have easy access.
 
+#### Users (Students)
+The users of the website will be students ages 11-16, the difference in ability that could arise due to the age gap will be accounted for and increasing accessibility is a priority for this project.
+
+User Stories:
+
+1. As the user I want the website to be straightforward and easy to use so that I do not have to spend a lot of time learning how to use it.
+2. As the user I want to have a large range of 'Scratch'-style code blocks to allow me to create more sophisticated programs. 
+
+### Functional & Non-Functional Requirements
+
+#### Functional
+
+| Description | Requirement Met | Tested | Test Evidence |
+|-------------|:-----------------:|:--------:|:--------:|
+| Must run on recent Chrome, Firefox, Safari on Win/Mac desktop to increase accessibility | No | No |
+| Support minimum 50 concurrent users, scalable to more to allow it to be used in larger classroom settings |  |
+| Remain online and usable for 5 years |  |
+| Have functionality to save users program progress |  |
+
+#### Non-Functional
+
+| Description | Requirement Met | Tested | Test Evidence |
+|-------------|:-----------------:|:--------:|:--------:|
+| Be accessible to users age 11-16 | No | No |  |
+| Remain online and usable for 5 years |  |  |
+| Get students interesting in studying STEM |  |  |
+
 
 ## Design Documents
 
