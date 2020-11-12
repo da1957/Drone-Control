@@ -8,6 +8,12 @@
  - Final release 12/5/21
 
 ## Overview
+Faculty of Engineering in University of Bristol via Industrial Liaison Office is working in partnership with Boeing to create outreach activities aiming to engage students with coding. The head of the project is Steve Bullock, lecturer in University of Bristol. His area of research is dynamics and control of automated air-to-air refuelling. Currently, he is working on Drone Control project. (Flight Lab description)
+
+The aim of the project is to create an interactive platform for users to learn and use basic coding concepts in an accessible format. The users will control a drone and thus learn how to code. Also, they will be able to engage with control system design in a limited form. The user interface and the product functionality need to be understandable for students aged 11-18. 
+
+Our vision for the product solution is to implement a website containing an interactive maze game. The site will not store any personal data. The goal of the game is to make the drone reach the destination. The drone will be controlled either by code blocks or manually using the keypad. 
+
 
 ## Requirements
 
