@@ -20,11 +20,14 @@ User Stories:
 
 1. As the client I want the software to be well documented so that it is extendable by original and future developers.
     - This can be achieved by keeping the code base clean and writing self-documenting code, when this is not possible detailed comments will be left. In-depth documentation will also be provided for when comments are not enough.
+
+    ![documented code flowchart](assets/documented_software.png)
 2. As the client I want the website to support a minimum of 50 concurrent users so that it can be used in a classroom setting.
     - We plan to use react to allow us to do a lot, if not all, of the processing in the users' browser, creating less of a load on our servers meaning it should be scalable to as many clients as necessary. 
 3. As the client I want a way to save coding progress so that users can come back to their work or share work with other users.
     - Steve suggested the programs users create could be hashed/encrypted into a unique code to allow for easy sharing of work. This could likely be achieved as the users build programs using 'Scratch'-style blocks meaning there are limited possibilities for how a program is created. The unique code could use hexadecimal or similar to shorten the length of the codes while leaving us with enough data for all the possibilities.
-    - To achieve this we need to decide on an encoding strategy and decide how blocks will be encoded with this, possibly looking at compression techniques to shorten code.
+    - To achieve this we need to decide on an encoding strategy and decide how blocks will be encoded with this, possibly looking at compression techniques to shorten code.#
+    ![saving progress flowchart](assets/save_progress.png)
 4. As the client I want the website to remain online and usable for 5 years as to get maximum benefit to a large number of students.
 
 #### Boeing
@@ -39,9 +42,8 @@ User Stories:
 The ILO is acting as an intermediary between internal clients (Steve Bullock) and external (Boeing). This could extend into the future after the project is completed if we decide to continue maintaining the project and working with Boeing while we are students.
 
 #### SRAA (Student Recruitment Access and Admissions)
-> Need to ask Steve to confirm this I guessed
 
-SRAA (along with Steve?) will be the lead on outreach with the software, running activities with younger students to increase interest in programming and/or Engineering. The software is aimed at users age 11-16 with the possibility of making it accessible to users from age 6.
+SRAA via the faculty engagment officer (Roisin Quinn) will be the lead on outreach with the software, running  e with younger students to increase interest in programming and/or Engineering. The software is aimed at users age 11-16 with the possibility of making it accessible to users from age 6.
 
 User Stories:
 
@@ -72,7 +74,7 @@ User Stories:
 | Description | Requirement Met | Tested | Test Evidence |
 |-------------|:-----------------:|:--------:|:--------:|
 | Be accessible to users age 11-16 | No | No |  |
-| Remain online and usable for 5 years |  |  |
+| Remain online and usable for 5 years by paying for hosting and domain for 5 years |  |  |
 | Get students interesting in studying STEM |  |  |
 
 
