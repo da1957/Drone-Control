@@ -104,3 +104,7 @@ Java and springboot
 ### Database Design
 
 If we don't have any user login probably no database needed?
+
+## Personal Data, Privacy, Security and Ethics Management
+
+In the Drone Control project no personal data will be collected. Therefore, we are not planning to use any cookies nor follow a security strategy.
