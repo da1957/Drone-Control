@@ -109,3 +109,21 @@ If we don't have any user login probably no database needed?
 
 In the Drone Control project no personal data will be collected. Therefore, we are not planning to use any cookies nor follow a security strategy.
 Ethics pre-approval was applied for on 10.11.2020 at 16:38.
+
+## Release Testing
+
+Basically, the stories of users (students age 11-16) are the key points of our Release Testing. Users’ stories indicate that the project should provide an accessible way for them to learn and be able to make programs more sophisticated when the number of participants is over 50. Furthermore 
+CircleCI is applied to help us to do some tests automatically. There is a table below which shows the detail.
+|  | Detail | Method|
+| :---         |     :---:      |          ---: |
+| Minimum Viable Product   |      |    |
+| Scalability      | Check our simulator could work normally and save users’ data when there are minimum 50 concurrent participants.       | Manually      |
+| Functionality |Make sure our backend of product combined with frontpage work without a problem.|Automatically|
+|UI|Ensure every key functional area lists at right place and works.|Manually|
+|Beta|||
+|Sophistication|Check 'Scratch'-style code blocks and young learners could run sophisticated program. |Manually|
+|Response|Make sure there is quick feedback |Automatically|
+|Final|||
+|Maintenance|Maintain the functionality of server for at least 5 years |Manually|
+
+If the situation of pandemic (Covid-19) improves which allows us to do manual tests, some young students (11 - 16) and college students will be invited to carry on a test manually in order to obtain feedback straightly before the final version. It is a necessary way to find out indetectable issue and bug. Besides that, the test allows us to make sure that all potential users could use normally.
