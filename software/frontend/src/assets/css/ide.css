@@ -1,0 +1,23 @@
+.bg-lgrey {
+    background-color: #e5e5e5;
+}
+
+.bg-lblue {
+    background-color: #77ACFC;
+}
+
+.outline {
+    outline: auto;
+}
+
+.vr {
+    position: absolute;
+    right: 0px;
+    border-left: 1px solid #000;
+    height: 100%;
+}
+
+.remove {
+    position: absolute;
+    right: 0px;
+}
