@@ -108,6 +108,9 @@ If we don't have any user login probably no database needed?
 
 In the Drone Control project no personal data will be collected. Therefore, we are not planning to use any cookies nor follow a security strategy.
 Ethics pre-approval was applied for on 10.11.2020 at 16:38.
+## Development Testing
+
+According to the process of the software’s development and design, Integrating the code of each component into complete instructions and feed them back to the drone simulator is believed as the core function/component of the system. Without doubt, that is the essential precondition for programming sophisticatedly. 
 
 ## Release Testing
 
