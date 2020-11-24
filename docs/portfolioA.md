@@ -124,13 +124,13 @@ If we don't have any user login probably no database needed?
 In the Drone Control project no personal data will be collected. Therefore, we are not planning to use any cookies nor follow a security strategy.
 Ethics pre-approval was applied for on 10.11.2020 at 16:38.
 ## Development Testing
-Due to the pandemic, most of the development work and tests are suggested to be done online. In that case, CircleCI is mentioned to be the first choice for testing integration project contributed by Github which is an essential platform for online working.CircleCI can bind GitHub / Bitbucket, as long as your code changes, it will automatically grab them. As for the tests of every component of the system, Junit combined with MockMvc are the best choice. Junit offers unit test framework, and MockMvc helps the former to solve complex tests by simulating the behavior of users.
+Due to the pandemic, most of the development work and tests are suggested to be done online. In that case, CircleCI is mentioned to be the first choice for testing integration project contributed by Github which is an essential platform for online working.CircleCI can bind GitHub / Bitbucket, as long as your code changes, it will automatically grab them. As for the tests of every component of the system, React-testing-library combined with Enzyme are the best choice. Enzyme offers unit test framework, and React DOM helps the former to solve complex tests by simulating the behavior of users.
 Furthermore, according to the process of the software’s development and design, Integrating the code of each component into complete instructions and feed them back to the drone simulator is believed as the core function/component of the system. Without doubt, that is the essential precondition for programming sophisticatedly. 
 | Function |Explaination| Example|
 | :---         |     :---:      |          ---: |
-|Code collection |This function should integrate Users’ code and save as a completed form which is used for backend |Expect: correct-form Actual: get-form Assert.Equal(Expect, Actual)|
-| Information processing |The data that backend receive will be transformed into instruction for Drone controller|Expect: correct-instruction Actual: get-instruction Assert.Equal(Expect, Actual)|
-|Simulator |Execute the instruction from backend, make sure it will move to the right position|Expect: correct-position Actual: get-postion Assert.Equal(Expect, Actual)|
+|Code collection |This function should integrate Users’ code and save as a completed form which is used for further process |Expect: correct-form Actual: get-form Assert.Equal(Expect, Actual)|
+| Information processing |The data received will be transformed into instruction for Drone controller|Expect: correct-instruction Actual: get-instruction Assert.Equal(Expect, Actual)|
+|Simulator |Execute the instruction and make sure it will move to the right position|Expect: correct-position Actual: get-postion Assert.Equal(Expect, Actual)|
 ## Release Testing
 
 Basically, the stories of users (students age 11-16) are the key points of our Release Testing. Users’ stories indicate that the project should provide an accessible way for them to learn and be able to make programs more sophisticated when the number of participants is over 50. Furthermore 
@@ -139,12 +139,12 @@ CircleCI is applied to help us to do some tests automatically. There is a table 
 | :---         |     :---:      |          ---: |
 | Minimum Viable Product   |      |    |
 | Scalability      | Check our simulator could work normally and save users’ data when there are minimum 50 concurrent participants.       | Manually      |
-| Functionality |Make sure our backend of product combined with frontpage work without a problem.|Automatically|
+| Functionality |Make sure our frontpage works without a problem.|Automatically|
 |UI|Ensure every key functional area lists at right place and works.|Manually|
 |Beta|||
 |Sophistication|Check 'Scratch'-style code blocks and young learners could run sophisticated program. |Manually|
 |Response|Make sure there is quick feedback |Automatically|
 |Final|||
-|Maintenance|Maintain the functionality of server for at least 5 years |Manually|
+|Maintenance|Maintain the functionality of webpage for at least 5 years |Manually|
 
 If the situation of pandemic (Covid-19) improves which allows us to do manual tests, some young students (11 - 16) and college students will be invited to carry on a test manually in order to obtain feedback straightly before the final version. It is a necessary way to find out indetectable issue and bug. Besides that, the test allows us to make sure that all potential users could use normally.
