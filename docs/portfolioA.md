@@ -109,8 +109,8 @@ If we don't have any user login probably no database needed?
 In the Drone Control project no personal data will be collected. Therefore, we are not planning to use any cookies nor follow a security strategy.
 Ethics pre-approval was applied for on 10.11.2020 at 16:38.
 ## Development Testing
-
-According to the process of the software’s development and design, Integrating the code of each component into complete instructions and feed them back to the drone simulator is believed as the core function/component of the system. Without doubt, that is the essential precondition for programming sophisticatedly. 
+Due to the pandemic, most of the development work and tests are suggested to be done online. In that case, CircleCI is mentioned to be the first choice for testing integration project contributed by Github which is an essential platform for online working.CircleCI can bind GitHub / Bitbucket, as long as your code changes, it will automatically grab them. As for the tests of every component of the system, Junit combined with MockMvc are the best choice. Junit offers unit test framework, and MockMvc helps the former to solve complex tests by simulating the behavior of users.
+Furthermore, according to the process of the software’s development and design, Integrating the code of each component into complete instructions and feed them back to the drone simulator is believed as the core function/component of the system. Without doubt, that is the essential precondition for programming sophisticatedly. 
 
 ## Release Testing
 
