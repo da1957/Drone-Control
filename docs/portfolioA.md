@@ -111,7 +111,11 @@ Ethics pre-approval was applied for on 10.11.2020 at 16:38.
 ## Development Testing
 Due to the pandemic, most of the development work and tests are suggested to be done online. In that case, CircleCI is mentioned to be the first choice for testing integration project contributed by Github which is an essential platform for online working.CircleCI can bind GitHub / Bitbucket, as long as your code changes, it will automatically grab them. As for the tests of every component of the system, Junit combined with MockMvc are the best choice. Junit offers unit test framework, and MockMvc helps the former to solve complex tests by simulating the behavior of users.
 Furthermore, according to the process of the software’s development and design, Integrating the code of each component into complete instructions and feed them back to the drone simulator is believed as the core function/component of the system. Without doubt, that is the essential precondition for programming sophisticatedly. 
-
+| Function |Explaination| Example|
+| :---         |     :---:      |          ---: |
+|Code collection |This function should integrate Users’ code and save as a completed form which is used for backend |Expect: correct-form Actual: get-form Assert.Equal(Expect, Actual)|
+| Information processing |The data that backend receive will be transformed into instruction for Drone controller|Expect: correct-instruction Actual: get-instruction Assert.Equal(Expect, Actual)|
+|Simulator |Execute the instruction from backend, make sure it will move to the right position|Expect: correct-position Actual: get-postion Assert.Equal(Expect, Actual)|
 ## Release Testing
 
 Basically, the stories of users (students age 11-16) are the key points of our Release Testing. Users’ stories indicate that the project should provide an accessible way for them to learn and be able to make programs more sophisticated when the number of participants is over 50. Furthermore 
