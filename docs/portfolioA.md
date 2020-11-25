@@ -1,12 +1,5 @@
 # Portfolio A
 
-### Important Dates
-
- - Portfolio A needs to be completed by 11/11/20
- - MVP done by 9/12/20
- - Beta release 12/2/21
- - Final release 12/5/21
-
 ## Overview
 Faculty of Engineering in University of Bristol via Industrial Liaison Office is working in partnership with Boeing to create outreach activities. The purpose of this activity is to engage students with coding. The head of the project is Steve Bullock, lecturer in University of Bristol. His area of research is dynamics and control of automated air-to-air refuelling. Currently, he is working on Drone Control project in University Flight Lab.
 
@@ -98,42 +91,37 @@ User Stories:
 
 ## Design Documents
 
-### Frontend Design
-
-https://www.figma.com/proto/d4MiXZERsUpjWQ7Qkf0xbl/DRONE-CONTROL?node-id=1%3A3&scaling=min-zoom
-
-Using react - possibly next.js to allow for a multi-page app?
-
-Sketches of all pages
-  - Login page?
-  - Instruction/example page?
-  - Main page with code & simulation (could be split to 2 pages)
-
-Login page - will we use google login/similar?
-
-### Backend Design
-
-Java and springboot
-
-### Database Design
-
-If we don't have any user login probably no database needed?
+To be done (Moved to TB2)
 
 ## Personal Data, Privacy, Security and Ethics Management
 
 In the Drone Control project no personal data will be collected. Therefore, we are not planning to use any cookies nor follow a security strategy.
 Ethics pre-approval was applied for on 10.11.2020 at 16:38.
+
+## Architecture
+
+Our client has stated he does not want to save any user data, all that is required is an interactive drone simulator that can be accessed on the web by at least 50 concurrent users, because of this our architecture is very simple as we do not need a database of any kind. 
+
+We plan to host the server on AWS as it is possible to use their EC2 Auto Scaling feature to react to sudden large demands by creating a new instance to balance the load when required. This will let our webapp maintain optimal performance even when the workload on our servers may go from nothing to 100 concurrent users.
+
+The largest benefit of using auto scaling is that it will keep the running costs down, we will run at least 1 EC2 instance at all times so there is no delay when a user tries to access the website, but this could scale indefinitely in theory if demand requires it, and when demand decreases again AWS will reduce the amount of EC2 instances until it reaches our specified minimum, so we will only pay for what we need. Over 5 years this will save a lot of money compared to running multiple EC2 instances all the time.
+
+Our client wants our webapp to remain online and useable for at leat 5 years and has stated external developers may maintain or extend it. If this is the case and they add more AWS services these can also be added to the auto scaling and AWS will increase individual resources as and when required rather than scaling the whole application.
+
+![Architecture Diagram](assets/architecture_diagram.png)
+
 ## Development Testing
-Due to the pandemic, most of the development work and tests are suggested to be done online. In that case, CircleCI is mentioned to be the first choice for testing integration project contributed by Github which is an essential platform for online working.CircleCI can bind GitHub / Bitbucket, as long as your code changes, it will automatically grab them. As for the tests of every component of the system, React-testing-library combined with Enzyme are the best choice. Enzyme offers unit test framework, and React DOM helps the former to solve complex tests by simulating the behavior of users.
+Due to the pandemic, most of the development work and tests are suggested to be done online. In that case, CircleCI is mentioned to be the first choice for testing integration project contributed by Github which is an essential platform for online working. CircleCI can bind GitHub / Bitbucket, as long as your code changes, it will automatically grab them. As for the tests of every component of the system, React-testing-library combined with Enzyme are the best choice. Enzyme offers unit test framework, and React DOM helps the former to solve complex tests by simulating the behavior of users.
 Furthermore, according to the process of the software’s development and design, Integrating the code of each component into complete instructions and feed them back to the drone simulator is believed as the core function/component of the system. Without doubt, that is the essential precondition for programming sophisticatedly. 
 | Function |Explaination| Example|
 | :---         |     :---:      |          ---: |
 |Code collection |This function should integrate Users’ code and save as a completed form which is used for further process |Expect: correct-form Actual: get-form Assert.Equal(Expect, Actual)|
 | Information processing |The data received will be transformed into instruction for Drone controller|Expect: correct-instruction Actual: get-instruction Assert.Equal(Expect, Actual)|
 |Simulator |Execute the instruction and make sure it will move to the right position|Expect: correct-position Actual: get-postion Assert.Equal(Expect, Actual)|
+
 ## Release Testing
 
-Basically, the stories of users (students age 11-16) are the key points of our Release Testing. Users’ stories indicate that the project should provide an accessible way for them to learn and be able to make programs more sophisticated when the number of participants is over 50. Furthermore 
+The stories of users (students age 11-16) are the key points of our Release Testing. Users’ stories indicate that the project should provide an accessible way for them to learn and be able to make programs more sophisticated when the number of participants is over 50. Furthermore 
 CircleCI is applied to help us to do some tests automatically. There is a table below which shows the detail.
 |  | Detail | Method|
 | :---         |     :---:      |          ---: |
