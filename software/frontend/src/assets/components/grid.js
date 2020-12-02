@@ -5,12 +5,11 @@ import '../css/ide.css'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
-class myFirstGrid extends React.Component {
-    
+class Grid extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: [0, 1, 2, 3].map(function(i) {
+            items: ["for-loop.0", "while.1"].map(function(i) {
                 return {
                     i: i.toString(),
                     x: 0,
@@ -20,18 +19,28 @@ class myFirstGrid extends React.Component {
                     isResizable: false,
                 };
             }),
-            counter: 4,
+            counter: 2,
         };
 
-        this.addItem = this.addItem.bind(this);
         this.onBreakPointChange = this.onBreakPointChange(this);
         this.onLayoutChange = this.onLayoutChange.bind(this);
     }
 
+    //TODO: Make a seperate block component, I tried but had problems with grid layout not rendering it, think you need to pass in lots of props
+    //https://github.com/STRML/react-grid-layout/issues/299
     createElement(item) {
+        //Create correct classname with blocktype and size
+        //Have to split at a delim as each grid item needs a unique key so had to give them a number
+        var blockType = item.i.split('.')[0]
+        var className = "droppable-element code-block ".concat(blockType)
+
+        blockType === "for-loop" || blockType === "while" 
+            ? className = className.concat(" col-4") 
+            : className = className.concat(" col-2")
+
         return (
-          <div className="bg-lblue" key={item.i} data-grid={item}>
-            {<span>{item.i}</span>}
+          <div className={className} key={item.i} data-grid={item}>
+            {blockType}
             <Button className="remove" size="sm" onClick={this.removeItem.bind(this, item)}>x</Button>
           </div>
         );
@@ -45,36 +54,36 @@ class myFirstGrid extends React.Component {
         //this.props.onLayoutChange(layout);
         this.setState({layout: layout});
     }
-    
-    addItem() {
-        var ypos = this.state.items[this.state.items.length - 1].y + 1
-        var xpos = this.state.items[this.state.items.length - 1].x + 1
-        
-        this.setState({items: this.state.items[this.state.items.length - 1].w = 2})
-        this.setState({items: this.state.items.concat({i: "n" + this.state.counter, x: xpos, y: ypos, w: 1, h: 1, isResizable: false}), counter: this.state.counter + 1});
-
-    }
 
     removeItem(item) {
-        this.setState({items: this.state.items.filter(x => x != item)})
+        this.setState({items: this.state.items.filter(x => x !== item)})
+    }
+
+    onDrop = (layout, layoutItem, event) => {
+        //This will retrieve data added to event when block is dragged
+        var blockType = event.dataTransfer.getData("blockType")
+
+        //idk why this is needed but had a weird problem where it would have wrong y value so bodged it for now
+        var yVal = layoutItem.y > 0 ? layoutItem.y -1 : layoutItem.y
+        this.setState({items: this.state.items.concat({i: blockType + "." + this.state.counter, x: layoutItem.x, y: yVal, w:1, h:1, isResizable: false}), 
+        counter: this.state.counter + 1})
     }
 
     render() {
         return (
-            <div>   
-                <Button onClick={() => {this.addItem()}}>Add Box</Button>
-                <ResponsiveGridLayout onLayoutChange={this.onLayoutChange}  onBreakpointChange={this.onBreakPointChange}  {...this.props}>
-                    {this.state.items.map(item => this.createElement(item))}
+            <div>
+                <ResponsiveGridLayout onLayoutChange={this.onLayoutChange}  onBreakpointChange={this.onBreakPointChange} isDroppable={true} onDrop={this.onDrop} {...this.props}>
+                    {this.state.items.map(i => this.createElement(i))}
                 </ResponsiveGridLayout>
             </div>
         )
     }
 }
 
-myFirstGrid.defaultProps = {
+Grid.defaultProps = {
     className: "layout",
-    cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
+    cols: {lg: 1, md: 1, sm: 1, xs: 1, xxs: 1},
     rowHeight: 30
 }
 
-export default myFirstGrid
+export default Grid
