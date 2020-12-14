@@ -41,7 +41,7 @@ class Grid extends React.Component {
         return (
           <div className={className} key={item.i} data-grid={item}>
             {blockType}
-            <Button className="remove" size="sm" onClick={this.removeItem.bind(this, item)}>x</Button>
+            <Button close onClick={this.removeItem.bind(this, item)}>x</Button>
           </div>
         );
       }

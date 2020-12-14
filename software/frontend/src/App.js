@@ -7,7 +7,7 @@ function App() {
       <Navbar />
       <div className="container">
         <div className="row">
-          <h1>Drone Control</h1>
+          <h1 className="font-weight-bold">Drone Control</h1>
         </div>
         <IDE />
       </div>

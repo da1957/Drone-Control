@@ -1,5 +1,18 @@
+@font-face {
+    font-family: neuzeits;
+    src: url(../fonts/neuzeitsltstd.otf)
+}
+
+* {
+    font-family: neuzeits;
+}
+
 .bg-lgrey {
     background-color: #e5e5e5;
+}
+
+.bg-active {
+    background-color: #6b99dd;
 }
 
 .bg-lblue {
@@ -17,13 +30,7 @@
     height: 100%;
 }
 
-.remove {
-    position: absolute;
-    right: 0px;
-}
-
 .code-block {
-    width: 50%;
     height: 30px;
     margin: auto;
     border-radius: 3px;
@@ -43,4 +50,12 @@
 .code-block.forward, .code-block.backward, .code-block.left, .code-block.right, .code-block.right-turn, .code-block.left-turn {
     background-color: orange;
     margin-bottom: 5%;
+}
+
+.code-type {
+    height: 10%;
+}
+
+.padding-0 {
+    padding: 0 !important;
 }

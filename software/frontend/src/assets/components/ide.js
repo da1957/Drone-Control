@@ -1,20 +1,34 @@
 import React from 'react';
 import '../css/ide.css'
 import Grid from '../components/grid'
+import Selector from '../components/selector'
+
+const loops = ["for-loop", "while"]
+const movement = ["forward", "backward", "left", "right", "left turn", "right turn"]
 
 class IDE extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            blockTypes: ["for-loop", "while", "forward", "backward", "left", "right", "left turn", "right turn"]
+            blockTypes: loops
         }
+    }
+
+    handleLoops = () => {
+        this.setState({ blockTypes: loops })
+    }
+
+    handleMovement = () => {
+        this.setState({ blockTypes: movement })
     }
 
     render() {
         return (
             <div className="row outline">
-                <div className="col-1 bg-lblue">
+                <div className="col-1 bg-lblue padding-0">
                     <div className="vr"></div>
+                    <Selector type="loops" selectionHandler={this.handleLoops} active={this.state.blockTypes == loops} />
+                    <Selector type="movement" selectionHandler={this.handleMovement} active={this.state.blockTypes == movement} />
                 </div>
                 <div className="col-2 bg-lgrey pt-2">
                     {this.state.blockTypes.map(blockName => <DraggableCodeBlock name={blockName} />)}
