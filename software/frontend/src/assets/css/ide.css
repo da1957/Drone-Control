@@ -1,0 +1,46 @@
+.bg-lgrey {
+    background-color: #e5e5e5;
+}
+
+.bg-lblue {
+    background-color: #77ACFC;
+}
+
+.outline {
+    outline: auto;
+}
+
+.vr {
+    position: absolute;
+    right: 0px;
+    border-left: 1px solid #000;
+    height: 100%;
+}
+
+.remove {
+    position: absolute;
+    right: 0px;
+}
+
+.code-block {
+    width: 50%;
+    height: 30px;
+    margin: auto;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.code-block.for-loop {
+    background-color: #77ACFC;
+    margin-bottom: 5%;
+}
+
+.code-block.while {
+    background-color: red;
+    margin-bottom: 5%;
+}
+
+.code-block.forward, .code-block.backward, .code-block.left, .code-block.right, .code-block.right-turn, .code-block.left-turn {
+    background-color: orange;
+    margin-bottom: 5%;
+}
