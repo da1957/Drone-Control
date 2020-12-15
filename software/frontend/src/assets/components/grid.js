@@ -14,16 +14,14 @@ class Grid extends React.Component {
                     i: i.toString(),
                     x: 0,
                     y: 0,
-                    w: 1,
+                    w: 2,
                     h: 1,
                     isResizable: false,
                 };
             }),
             counter: 2,
+            loopValues: {"for-loop.0": 1, "while.1": 1}
         };
-
-        this.onBreakPointChange = this.onBreakPointChange(this);
-        this.onLayoutChange = this.onLayoutChange.bind(this);
     }
 
     //TODO: Make a seperate block component, I tried but had problems with grid layout not rendering it, think you need to pass in lots of props
@@ -34,23 +32,47 @@ class Grid extends React.Component {
         var blockType = item.i.split('.')[0]
         var className = "droppable-element code-block ".concat(blockType)
 
-        blockType === "for-loop" || blockType === "while" 
-            ? className = className.concat(" col-4") 
-            : className = className.concat(" col-2")
+        var inputRequired = false
+
+        if (blockType === "for-loop" || blockType === "while") {
+            className = className.concat(" row no-flex-wrap")
+            inputRequired = true
+        } else {
+            className = className.concat(" row")
+        }
 
         return (
           <div className={className} key={item.i} data-grid={item}>
-            {blockType}
-            <Button close onClick={this.removeItem.bind(this, item)}>x</Button>
+              <div className="col-7">
+                <p>{blockType}</p>
+              </div>
+            {inputRequired &&
+                    <div className="input-group input-group-sm col-3">
+                        <div className="input-group-prepend">
+                            <span class="input-group-text">i &#60;</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="1" aria-label="Less than" value={this.state.loopValues[item.i]} onChange={this.onFormChange.bind(this, item)}/>
+                    </div>
+            }
+            <div className="col-2">
+                <a className="btn" onClick={this.removeItem.bind(this, item)}>close</a>
+            </div>
           </div>
         );
-      }
+    }
 
-    onBreakPointChange(breakpoint, cols) {
+    onFormChange = (item, event) => {
+        var newLoopValues = this.state.loopValues
+        newLoopValues[item.i] = event.target.value
+
+        this.setState({ loopValues: newLoopValues })
+    }
+
+    onBreakPointChange = (breakpoint, cols) => {
         this.setState({breakpoint: breakpoint, cols: cols})
     }
 
-    onLayoutChange(layout) {
+    onLayoutChange = (layout) => {
         //this.props.onLayoutChange(layout);
         this.setState({layout: layout});
     }
@@ -62,18 +84,29 @@ class Grid extends React.Component {
     onDrop = (layout, layoutItem, event) => {
         //This will retrieve data added to event when block is dragged
         var blockType = event.dataTransfer.getData("blockType")
+        var uniqueName = blockType + "." + this.state.counter
+        var width = 1
+
+        if (blockType == "for-loop" || blockType == "while") {
+            var newLoopValues = this.state.loopValues
+            newLoopValues[uniqueName] = 1
+            this.setState({ loopValues: newLoopValues })
+
+            width = 2
+        }  
 
         //idk why this is needed but had a weird problem where it would have wrong y value so bodged it for now
         var yVal = layoutItem.y > 0 ? layoutItem.y -1 : layoutItem.y
-        this.setState({items: this.state.items.concat({i: blockType + "." + this.state.counter, x: layoutItem.x, y: yVal, w:1, h:1, isResizable: false}), 
-        counter: this.state.counter + 1})
+        this.setState({items: this.state.items.concat({i: uniqueName, x: layoutItem.x, y: yVal, w:width, h:1, isResizable: false}), 
+            counter: this.state.counter + 1})
+
     }
 
     render() {
         return (
             <div>
                 <ResponsiveGridLayout onLayoutChange={this.onLayoutChange}  onBreakpointChange={this.onBreakPointChange} isDroppable={true} onDrop={this.onDrop} {...this.props}>
-                    {this.state.items.map(i => this.createElement(i))}
+                    {this.state.items.map((i) => this.createElement(i))}
                 </ResponsiveGridLayout>
             </div>
         )
@@ -82,8 +115,9 @@ class Grid extends React.Component {
 
 Grid.defaultProps = {
     className: "layout",
-    cols: {lg: 1, md: 1, sm: 1, xs: 1, xxs: 1},
-    rowHeight: 30
+    cols: {lg: 2, md: 2, sm: 2, xs: 2, xxs: 2},
+    rowHeight: 30,
+    verticalCompact: false
 }
 
 export default Grid

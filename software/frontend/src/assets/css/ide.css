@@ -31,7 +31,6 @@
 }
 
 .code-block {
-    height: 30px;
     margin: auto;
     border-radius: 3px;
     text-align: center;
@@ -58,4 +57,18 @@
 
 .padding-0 {
     padding: 0 !important;
+}
+
+.width-30 {
+    max-width: 30%;
+}
+
+.overflow {
+    overflow: auto;
+}
+
+.no-flex-wrap {
+    flex-wrap: nowrap !important;
+    /* width: 80% !important;
+    margin-left: 20% !important; */
 }

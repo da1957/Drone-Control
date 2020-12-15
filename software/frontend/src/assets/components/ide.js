@@ -33,7 +33,7 @@ class IDE extends React.Component {
                 <div className="col-2 bg-lgrey pt-2">
                     {this.state.blockTypes.map(blockName => <DraggableCodeBlock name={blockName} />)}
                 </div>
-                <div className="col-9 bg-dark" style={{height: '50vh'}}>
+                <div className="col-9 bg-dark overflow" style={{height: '50vh'}}>
                     <h1 className="h4 text-white">Code area</h1>
                     <Grid />
                 </div>
