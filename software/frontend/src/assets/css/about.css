@@ -1,0 +1,13 @@
+html, body {
+    height: 100%;
+}
+
+.footer {
+    color: #ccc;
+    position: absolute;
+    bottom: 0;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

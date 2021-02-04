@@ -25,7 +25,7 @@ class IDE extends React.Component {
     render() {
         return (
             <div className="row outline">
-                <div className="col-1 bg-lblue padding-0">
+                <div className="col-1 bg-lblue px-0 py-0">
                     <div className="vr"></div>
                     <Selector type="loops" selectionHandler={this.handleLoops} active={this.state.blockTypes == loops} />
                     <Selector type="movement" selectionHandler={this.handleMovement} active={this.state.blockTypes == movement} />
