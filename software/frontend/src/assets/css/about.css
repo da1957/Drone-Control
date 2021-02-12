@@ -8,6 +8,12 @@ html, body {
     bottom: 0;
 }
 
-.cursor-pointer {
+.hidden-link {
+    color:#ccc !important;
+    text-decoration: inherit;
     cursor: pointer;
+}
+
+.hidden-link:hover {
+    color: black !important;
 }

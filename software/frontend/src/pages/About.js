@@ -11,7 +11,7 @@ const About = () => {
                         <p>hello hello hello hello hello</p>
                     </div>
                     <div className="align-self-center mt-auto footer">
-                        <div>Icons made by <span className="cursor-pointer" href="https://www.freepik.com" title="Freepik">Freepik</span> from <span className="cursor-pointer" href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</span></div>
+                        <div>Icons made by <a className="hidden-link" href="https://www.freepik.com" title="Freepik">Freepik</a> from <a className="hidden-link" href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
                     </div>
         </div>
     );

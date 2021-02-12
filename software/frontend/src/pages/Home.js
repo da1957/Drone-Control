@@ -1,10 +1,11 @@
 import IDE from '../assets/components/ide'
+import { Container } from 'react-bootstrap'
 
 function App() {
   return (
-    <div className="container-fluid my-2">
+    <Container fluid className="my-2">
       <IDE />
-    </div>
+    </Container>
   );
 }
 

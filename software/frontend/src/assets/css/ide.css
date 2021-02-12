@@ -4,29 +4,24 @@
     font-family: neuzeits;
 }
 
-.bg-lgrey {
-    background-color: #e5e5e5;
+.example-enter {
+    opacity: 0.01;
+    transform: translateX(-100%);
+  }
+ 
+.example-enter.example-enter-active {
+    opacity: 1;
+    transform: translateX(0%);
+    transition: all 700ms ease-in;
 }
 
-.bg-active {
-    background-color: #6b99dd;
+.example-exit {
+    opacity: 1;
+    transform: translateX(0%);
 }
 
-.bg-lblue {
-    background-color: #77ACFC;
-}
-
-.outline {
-    outline: auto;
-}
-
-.vr {
-    position: absolute;
-    right: 0px;
-    border-left: 1px solid #000;
-    height: 100%;
-}
-
-.overflow {
-    overflow: auto;
+.example-exit.example-exit-active {
+    opacity: 0.01;
+    transform: translateX(100%);
+    transition: all 500ms ease-in;
 }

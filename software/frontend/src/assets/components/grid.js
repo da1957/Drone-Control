@@ -1,26 +1,51 @@
 import React from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import { InputGroup, FormControl, Col } from 'react-bootstrap'
 import '../css/grid.css'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
+function VariableSelector(props) {
+    return (
+        <Col> 
+            <InputGroup>
+                <FormControl data-item={props.item.i} data-type="variable" type="text" placeholder="i" aria-label="variable" value={props.loopData[props.item.i].variable} onChange={props.onFormChange.bind(this)} />
+                <InputGroup.Prepend>
+                    <InputGroup.Text>&#x2264;</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl data-item={props.item.i} data-type="value" type="text" placeholder="1" aria-label="value" value={props.loopData[props.item.i].value} onChange={props.onFormChange.bind(this)} />
+            </InputGroup>
+        </Col>
+    )
+}
+
 class Grid extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: ["for-loop.0", "while.1"].map(function(i) {
-                return {
-                    i: i.toString(),
-                    x: 0,
-                    y: 0,
-                    w: 2,
-                    h: 1,
-                    isResizable: false,
-                };
-            }),
-            counter: 2,
-            loopValues: {"for-loop.0": 1, "while.1": 1}
-        };
+    state = {
+        items: ["for-loop.0", "while.1"].map((i) => {
+            return {
+                i: i.toString(),
+                x: 0,
+                y: 0,
+                w: 2,
+                h: 1,
+                isResizable: false,
+            };
+        }),
+        counter: 2,
+        loopData: {"for-loop.0": {value: 1, variable: "i"}, "while.1": {value: 1, variable: "j"}}
+    };  
+    onFormChange = (event) => {
+        var newloopData = this.state.loopData
+        var itemId = event.target.getAttribute("data-item")
+        var type = event.target.getAttribute("data-type")
+        
+        if (type === "value") {
+            newloopData[itemId].value = event.target.value
+        } else {
+            newloopData[itemId].variable = event.target.value
+        }
+
+        this.setState({ loopData: newloopData })
     }
 
     //TODO: Make a seperate block component, I tried but had problems with grid layout not rendering it, think you need to pass in lots of props
@@ -29,44 +54,31 @@ class Grid extends React.Component {
         //Create correct classname with blocktype and size
         //Have to split at a delim as each grid item needs a unique key so had to give them a number
         var blockType = item.i.split('.')[0]
-        var className = "droppable-element code-block ".concat(blockType)
+        var className = "droppable-element code-block row ".concat(blockType)
 
         var inputRequired = false
 
-        if (blockType === "for-loop" || blockType === "while") {
-            className = className.concat(" row no-flex-wrap")
+        if (["for-loop", "while"].includes(blockType)) {
+            className = className.concat(" no-flex-wrap")
             inputRequired = true
-        } else {
-            className = className.concat(" row")
         }
 
         return (
-          <div className={className} key={item.i} data-grid={item}>
-              <div className="col-7">
-                <p>{blockType}</p>
-              </div>
-            {inputRequired &&
-                    <div className="input-group input-group-sm col-3">
-                        <div className="input-group-prepend">
-                            <span class="input-group-text">i &#60;</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="1" aria-label="Less than" value={this.state.loopValues[item.i]} onChange={this.onFormChange.bind(this, item)}/>
-                    </div>
-            }
-            <div className="col-2">
-                <a className="btn" onClick={this.removeItem.bind(this, item)}>close</a>
+            <div className={className} key={item.i} data-grid={item}>
+                <Col>
+                    <p className="mb-0 mt-1">{blockType}</p>
+                </Col>
+
+                {inputRequired && 
+                    <VariableSelector {...this.state} item={item} onFormChange={this.onFormChange} />
+                }
+
+                <Col>
+                    <a className="btn" onClick={this.removeItem.bind(this, item)}>close</a>
+                </Col>
             </div>
-          </div>
         );
     }
-
-    onFormChange = (item, event) => {
-        var newLoopValues = this.state.loopValues
-        newLoopValues[item.i] = event.target.value
-
-        this.setState({ loopValues: newLoopValues })
-    }
-
     onBreakPointChange = (breakpoint, cols) => {
         this.setState({breakpoint: breakpoint, cols: cols})
     }
@@ -86,17 +98,15 @@ class Grid extends React.Component {
         var uniqueName = blockType + "." + this.state.counter
         var width = 1
 
-        if (blockType == "for-loop" || blockType == "while") {
-            var newLoopValues = this.state.loopValues
-            newLoopValues[uniqueName] = 1
-            this.setState({ loopValues: newLoopValues })
+        if (["for-loop", "while"].includes(blockType)) {
+            var newloopData = this.state.loopData
+            newloopData[uniqueName] = {value: 1, variable: "i"}
+            this.setState({ loopData: newloopData })
 
             width = 2
         }  
 
-        //idk why this is needed but had a weird problem where it would have wrong y value so bodged it for now
-        var yVal = layoutItem.y > 0 ? layoutItem.y -1 : layoutItem.y
-        this.setState({items: this.state.items.concat({i: uniqueName, x: layoutItem.x, y: yVal, w:width, h:1, isResizable: false}), 
+        this.setState({items: this.state.items.concat({i: uniqueName, x: layoutItem.x, y: layoutItem.y, w:width, h:1, isResizable: false}), 
             counter: this.state.counter + 1})
 
     }
@@ -115,8 +125,8 @@ class Grid extends React.Component {
 Grid.defaultProps = {
     className: "layout",
     cols: {lg: 2, md: 2, sm: 2, xs: 2, xxs: 2},
-    rowHeight: 30,
-    verticalCompact: false
+    rowHeight: 40,
+    vertical: false
 }
 
 export default Grid
