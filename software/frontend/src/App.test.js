@@ -19,5 +19,5 @@ afterEach(() => {
 
 test('Renders navbar', () => {
   render(<Navbar />, container);
-  expect(container.textContent).toBe("DRONE CONTROL");
+  expect(container.textContent).toBe("dronecontrol");
 })

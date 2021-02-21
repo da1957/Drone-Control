@@ -1,0 +1,19 @@
+html, body {
+    height: 100%;
+}
+
+.footer {
+    color: #ccc;
+    position: absolute;
+    bottom: 0;
+}
+
+.hidden-link {
+    color:#ccc !important;
+    text-decoration: inherit;
+    cursor: pointer;
+}
+
+.hidden-link:hover {
+    color: black !important;
+}

@@ -1,74 +1,27 @@
-@font-face {
-    font-family: neuzeits;
-    src: url(../fonts/neuzeitsltstd.otf)
-}
+@import "global.css";
 
 * {
     font-family: neuzeits;
 }
 
-.bg-lgrey {
-    background-color: #e5e5e5;
+.example-enter {
+    opacity: 0.01;
+    transform: translateX(-100%);
+  }
+ 
+.example-enter.example-enter-active {
+    opacity: 1;
+    transform: translateX(0%);
+    transition: all 700ms ease-in;
 }
 
-.bg-active {
-    background-color: #6b99dd;
+.example-exit {
+    opacity: 1;
+    transform: translateX(0%);
 }
 
-.bg-lblue {
-    background-color: #77ACFC;
-}
-
-.outline {
-    outline: auto;
-}
-
-.vr {
-    position: absolute;
-    right: 0px;
-    border-left: 1px solid #000;
-    height: 100%;
-}
-
-.code-block {
-    margin: auto;
-    border-radius: 3px;
-    text-align: center;
-}
-
-.code-block.for-loop {
-    background-color: #77ACFC;
-    margin-bottom: 5%;
-}
-
-.code-block.while {
-    background-color: red;
-    margin-bottom: 5%;
-}
-
-.code-block.forward, .code-block.backward, .code-block.left, .code-block.right, .code-block.right-turn, .code-block.left-turn {
-    background-color: orange;
-    margin-bottom: 5%;
-}
-
-.code-type {
-    height: 10%;
-}
-
-.padding-0 {
-    padding: 0 !important;
-}
-
-.width-30 {
-    max-width: 30%;
-}
-
-.overflow {
-    overflow: auto;
-}
-
-.no-flex-wrap {
-    flex-wrap: nowrap !important;
-    /* width: 80% !important;
-    margin-left: 20% !important; */
+.example-exit.example-exit-active {
+    opacity: 0.01;
+    transform: translateX(100%);
+    transition: all 500ms ease-in;
 }

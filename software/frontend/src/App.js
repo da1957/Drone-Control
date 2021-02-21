@@ -1,18 +1,13 @@
 import Navbar from './assets/components/navbar';
-import IDE from './assets/components/ide'
+import Main from './Main'
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Navbar />
-      <div className="container">
-        <div className="row">
-          <h1 className="font-weight-bold">Drone Control</h1>
-        </div>
-        <IDE />
-      </div>
+      <Main />
     </div>
   );
-}
+  }
 
 export default App;

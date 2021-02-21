@@ -1,47 +1,36 @@
 import React from 'react';
-import '../css/ide.css'
-import Grid from '../components/grid'
-import Selector from '../components/selector'
+import '../css/ide.css';
+import Grid from '../components/grid';
+import { Row, Col, Tab, Nav } from 'react-bootstrap'
 
-const loops = ["for-loop", "while"]
-const movement = ["forward", "backward", "left", "right", "left turn", "right turn"]
-
-class IDE extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            blockTypes: loops
-        }
-    }
-
-    handleLoops = () => {
-        this.setState({ blockTypes: loops })
-    }
-
-    handleMovement = () => {
-        this.setState({ blockTypes: movement })
-    }
-
-    render() {
-        return (
-            <div className="row outline">
-                <div className="col-1 bg-lblue padding-0">
-                    <div className="vr"></div>
-                    <Selector type="loops" selectionHandler={this.handleLoops} active={this.state.blockTypes == loops} />
-                    <Selector type="movement" selectionHandler={this.handleMovement} active={this.state.blockTypes == movement} />
-                </div>
-                <div className="col-2 bg-lgrey pt-2">
-                    {this.state.blockTypes.map(blockName => <DraggableCodeBlock name={blockName} />)}
-                </div>
-                <div className="col-9 bg-dark overflow" style={{height: '50vh'}}>
-                    <h1 className="h4 text-white">Code area</h1>
-                    <Grid />
-                </div>
-            </div>
-        )
-    }
+function SelectorItem(props) {
+    return (
+        <Nav.Item>
+            <Nav.Link eventKey={props.name}>{props.name}</Nav.Link>
+        </Nav.Item>
+    )
 }
 
+function Selector() {
+    return (
+        <Nav variant="pills" className="flex-column">
+            <SelectorItem name="Loops" />
+            <SelectorItem name="Movement" />
+        </Nav>
+    )
+}
+
+function CodeBlocks(props) {
+    return (
+        <Tab.Content>
+            {Object.entries(props.items).map(([key, value]) => (
+                <Tab.Pane eventKey={key}>
+                    {value}
+                </Tab.Pane>
+            ))}
+        </Tab.Content>
+    )
+}
 function DraggableCodeBlock(props) {
     var className = "droppable-element code-block " + props.name
     return (
@@ -49,5 +38,30 @@ function DraggableCodeBlock(props) {
     )
 }
 
+function IDE() {
+    const loops = ["for-loop", "while"]
+    const movement = ["forward", "backward", "left", "right", "left turn", "right turn"]
+    
+    const loopItems = (loops.map(blockName => <DraggableCodeBlock name={blockName} />));
+    const movementItems = (movement.map(blockName => <DraggableCodeBlock name={blockName} />));
+
+    const items = {"Loops": loopItems, "Movement": movementItems}
+
+    return (
+            <Tab.Container defaultActiveKey="Loops">
+                <Row style={{height: '50vh'}}>
+                    <Col sm={2} className="bg-light pt-2" style={{ 'borderRight': '1px solid #ccc' }}>
+                        <Selector />
+                    </Col>
+                    <Col sm={2} className="bg-light pt-2">
+                        <CodeBlocks items={items}/>
+                    </Col>
+                    <Col sm={8} className="bg-dark">
+                        <Grid />
+                    </Col>
+                </Row>
+            </Tab.Container>
+    )
+}
 
 export default IDE
