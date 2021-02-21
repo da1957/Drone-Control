@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>TUM visnav EdX simulator demo</title>
+
+		<script type="text/javascript" src="js/edx_state.js"></script>
+
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+		<link type="text/css" rel="stylesheet" href="css/graph.css">
+		<link type="text/css" rel="stylesheet" href="css/detail.css">
+		<link type="text/css" rel="stylesheet" href="css/legend.css">
+		<!--
+			TODO: this causes a bug in the ace editor, namely the "div, span, p, td " style def
+			<link type="text/css" rel="stylesheet" href="css/lines.css">
+			<link type="text/css" rel="stylesheet" href="css/extensions.css">
+		-->
+		<script type="text/javascript" data-main="js/app" src="js/require.js"></script>
+
+		<style type="text/css" media="screen">
+			#viewport {
+				width: 100%;
+				height: 400px;
+				position: relative;
+			}
+			#overlay {
+				background: rgba(0, 0, 0, 0.0);
+				position: absolute;
+				top: 0px;
+				right: 10px;
+				cursor: default;
+			}
+		</style>
+		<!-- <script>
+			const respondToMessage = function(e) {
+				if(e.data == 'sizing?') {
+					e.source.postMessage('sizing:'+document.body.scrollHeight+','+document.body.scrollWidth, e.origin); // we have to listen for 'message' 
+					alert("sent msg back")
+				}
+			}
+			window.addEventListener('message', respondToMessage, false);
+		</script> -->
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col">
+					<div id="viewport">
+						<div id="overlay">some text overlay</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
