@@ -39,7 +39,7 @@ function DraggableCodeBlock(props) {
 }
 
 function IDE() {
-    const movement = ["forward", "backward", "left", "right", "left turn", "right turn"]
+    const movement = ["forward", "backward", "left", "right", "turn left", "turn right"]
     const loops = ["for-loop", "while"]
     
     const movementItems = (movement.map(blockName => <DraggableCodeBlock name={blockName} />));

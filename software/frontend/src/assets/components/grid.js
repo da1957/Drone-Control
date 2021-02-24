@@ -11,7 +11,10 @@ function VariableSelector(props) {
             <InputGroup>
                 <FormControl data-item={props.item.i} data-type="variable" type="text" placeholder="i" aria-label="variable" value={props.loopData[props.item.i].variable} onChange={props.onFormChange.bind(this)} />
                 <InputGroup.Prepend>
-                    <InputGroup.Text>&#x2264;</InputGroup.Text>
+                    {props.item.i.split('.')[0] === "for-loop" ? 
+                        <InputGroup.Text>&#x2264;</InputGroup.Text> :
+                        <InputGroup.Text>&#x2265;</InputGroup.Text>
+                    }
                 </InputGroup.Prepend>
                 <FormControl data-item={props.item.i} data-type="value" type="text" placeholder="1" aria-label="value" value={props.loopData[props.item.i].value} onChange={props.onFormChange.bind(this)} />
             </InputGroup>
@@ -20,14 +23,48 @@ function VariableSelector(props) {
 }
 
 function createProgram(items, loopData) {
+    //Dont want this func changing main items array
+    var itemsCopy = [...items]
     var cmds = []
 
-    items.forEach(item => {
+    for (var index = 0; index < itemsCopy.length; index++) {
+        let item = itemsCopy[index]
         let itemName = item.i.split('.')[0]
-        let cmd = "cmd.".concat(itemName, "(1)")
-        cmds.push(cmd)
-    })
 
+        //This seems like bad code to me but then again so does all JS
+        //Works as /xxx/.test(string) looks for substring xxx in string
+        //As we are switching on true first case that evaluates to true will be picked
+        //TODO: Refactor this
+        switch(true) {
+                case /for-loop/.test(itemName):
+                    var loopItems = itemsCopy.slice(index+1)
+
+                    if (loopData[item.i].value > 0) { //if loop val is 0 items below should only appear once but they are already in array
+                        for (var i = 0; i <= loopData[item.i].value; i++) {
+                            itemsCopy.push.apply(itemsCopy, loopItems)
+                        }
+                    }
+
+                    break
+                case /while/.test(itemName):
+                    var loopItems = itemsCopy.slice(index+1)
+
+                    if (loopData[item.i].value > 0) { //if loop val is 0 items below should only appear once but they are already in array
+                        for (var i = loopData[item.i].value; i >= 0; i--) {
+                            itemsCopy.push.apply(itemsCopy, loopItems)
+                        }
+                    }
+                    break
+                case /turn/.test(itemName):
+                    let turn_cmd = "cmd.".concat(itemName.replace(' ', '_'), "(45)")
+                    cmds.push(turn_cmd)
+                    break
+                default:
+                    let cmd = "cmd.".concat(itemName, "(1)")
+                    cmds.push(cmd)
+                    break
+        }
+    }
     console.log(cmds)
 
     var cmdsString = "commands = [".concat(cmds, "]")
@@ -102,7 +139,7 @@ class Grid extends React.Component {
     sendMsg = () => {
         //Currently simulator does not respond but leaving here incase we need it in the future
         const handleResponse = function(e) {
-            console.log(e.data)
+            // console.log(e.data)
         }
         window.addEventListener("message", handleResponse, false)
 
@@ -166,7 +203,19 @@ class Grid extends React.Component {
 
     onLayoutChange = (layout) => {
         //this.props.onLayoutChange(layout);
-        this.setState({layout: layout});
+        
+        let sorted = [...this.state.items]
+
+        //On layout change need to modify order of items array so we know what comes first when passing to AUTONAVx
+        if (this.state.items.length > 1) {
+            sorted.sort(function(x, y) {
+                //JS sort functions just need a negative or positive num to sort
+                //This will find y pos of both items then negate them to get order
+                return layout.find(obj => obj.i === x.i).y - layout.find(obj => obj.i === y.i).y
+            })
+        }
+        
+        this.setState({layout: layout, items: sorted});
     }
 
     removeItem(item) {
