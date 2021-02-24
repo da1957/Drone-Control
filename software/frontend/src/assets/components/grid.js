@@ -20,7 +20,19 @@ function VariableSelector(props) {
 }
 
 function createProgram(items, loopData) {
-    let string = `import math
+    var cmds = []
+
+    items.forEach(item => {
+        let itemName = item.i.split('.')[0]
+        let cmd = "cmd.".concat(itemName, "(1)")
+        cmds.push(cmd)
+    })
+
+    console.log(cmds)
+
+    var cmdsString = "commands = [".concat(cmds, "]")
+
+    var program = `import math
 import plot
 import time
 from simulator.controller import MissionPlanner, PositionController
@@ -42,24 +54,7 @@ class InternalCode:
     def mission_setup(self, planner):
         import quadrotor.command as cmd
 
-        commands = [
-            cmd.down(0.5),
-            cmd.right(1),
-            cmd.turn_left(45),
-            cmd.forward(math.sqrt(2)),
-            cmd.turn_right(45),
-            cmd.right(1),
-            cmd.turn_left(45),
-            cmd.forward(math.sqrt(0.5)),
-            cmd.turn_left(90),
-            cmd.forward(math.sqrt(0.5)),
-            cmd.turn_left(45),
-            cmd.forward(1),
-            cmd.turn_right(45),
-            cmd.backward(math.sqrt(2)),
-            cmd.turn_left(45),
-            cmd.forward(1),
-        ]
+        ${cmdsString}
 
         planner.add_commands(commands)
 
@@ -84,7 +79,8 @@ class InternalCode:
         plot.plot("v_z",  navdata.vz)
 
 `
-    return string
+
+    return program
 }
 
 

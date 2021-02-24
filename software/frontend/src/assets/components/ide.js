@@ -14,8 +14,8 @@ function SelectorItem(props) {
 function Selector() {
     return (
         <Nav variant="pills" className="flex-column">
-            <SelectorItem name="Loops" />
             <SelectorItem name="Movement" />
+            <SelectorItem name="Loops" />
         </Nav>
     )
 }
@@ -39,16 +39,16 @@ function DraggableCodeBlock(props) {
 }
 
 function IDE() {
-    const loops = ["for-loop", "while"]
     const movement = ["forward", "backward", "left", "right", "left turn", "right turn"]
+    const loops = ["for-loop", "while"]
     
-    const loopItems = (loops.map(blockName => <DraggableCodeBlock name={blockName} />));
     const movementItems = (movement.map(blockName => <DraggableCodeBlock name={blockName} />));
+    const loopItems = (loops.map(blockName => <DraggableCodeBlock name={blockName} />));
 
-    const items = {"Loops": loopItems, "Movement": movementItems}
+    const items = {"Movement": movementItems, "Loops": loopItems}
 
     return (
-            <Tab.Container defaultActiveKey="Loops">
+            <Tab.Container defaultActiveKey="Movement">
                 <Row style={{height: '50vh'}}>
                     <Col sm={2} className="bg-light pt-2" style={{ 'borderRight': '1px solid #ccc' }}>
                         <Selector />
