@@ -1,6 +1,6 @@
 import React from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import { InputGroup, FormControl, Col } from 'react-bootstrap'
+import { InputGroup, FormControl, Col, Button } from 'react-bootstrap'
 import '../css/grid.css'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
@@ -11,7 +11,10 @@ function VariableSelector(props) {
             <InputGroup>
                 <FormControl data-item={props.item.i} data-type="variable" type="text" placeholder="i" aria-label="variable" value={props.loopData[props.item.i].variable} onChange={props.onFormChange.bind(this)} />
                 <InputGroup.Prepend>
-                    <InputGroup.Text>&#x2264;</InputGroup.Text>
+                    {props.item.i.split('.')[0] === "for-loop" ? 
+                        <InputGroup.Text>&#x2264;</InputGroup.Text> :
+                        <InputGroup.Text>&#x2265;</InputGroup.Text>
+                    }
                 </InputGroup.Prepend>
                 <FormControl data-item={props.item.i} data-type="value" type="text" placeholder="1" aria-label="value" value={props.loopData[props.item.i].value} onChange={props.onFormChange.bind(this)} />
             </InputGroup>
@@ -19,21 +22,135 @@ function VariableSelector(props) {
     )
 }
 
+function createProgram(items, loopData) {
+    //Dont want this func changing main items array
+    var itemsCopy = [...items]
+    var cmds = []
+
+    for (var index = 0; index < itemsCopy.length; index++) {
+        let item = itemsCopy[index]
+        let itemName = item.i.split('.')[0]
+
+        //This seems like bad code to me but then again so does all JS
+        //Works as /xxx/.test(string) looks for substring xxx in string
+        //As we are switching on true first case that evaluates to true will be picked
+        //TODO: Refactor this
+        switch(true) {
+                case /for-loop/.test(itemName):
+                    var loopItems = itemsCopy.slice(index+1)
+
+                    if (loopData[item.i].value > 0) { //if loop val is 0 items below should only appear once but they are already in array
+                        for (var i = 0; i < loopData[item.i].value; i++) {
+                            itemsCopy.push.apply(itemsCopy, loopItems)
+                        }
+                    }
+
+                    break
+                case /while/.test(itemName):
+                    var loopItems = itemsCopy.slice(index+1)
+
+                    if (loopData[item.i].value > 0) { //if loop val is 0 items below should only appear once but they are already in array
+                        for (var i = loopData[item.i].value; i > 0; i--) {
+                            itemsCopy.push.apply(itemsCopy, loopItems)
+                        }
+                    }
+                    break
+                case /turn/.test(itemName):
+                    let turn_cmd = "cmd.".concat(itemName.replace(' ', '_'), "(45)")
+                    cmds.push(turn_cmd)
+                    break
+                default:
+                    let cmd = "cmd.".concat(itemName, "(1)")
+                    cmds.push(cmd)
+                    break
+        }
+    }
+
+    var cmdsString = "commands = [".concat(cmds, "]")
+
+    var program = `import math
+import plot
+import time
+from simulator.controller import MissionPlanner, PositionController
+
+# set this to True to enable the mission planner
+use_planned_mission = True
+
+class InternalCode:
+    def __init__(self, simulator):
+        print("initializing simulation at %s" % time.time())
+
+        self.simulator = simulator
+
+        if use_planned_mission:
+            mission = MissionPlanner()
+            self.mission_setup(mission)
+            self.controller = PositionController(self.simulator.drone, mission.commands, True)
+
+    def mission_setup(self, planner):
+        import quadrotor.command as cmd
+
+        ${cmdsString}
+
+        planner.add_commands(commands)
+
+    def measurement_callback(self, t, dt, navdata):
+        """
+        called for each measurement done by the drone
+        """
+
+        if use_planned_mission:
+            # apply the computed control to as simulation input
+            lin_vel, yaw_vel = self.controller.compute_input()
+            self.simulator.set_input_world(lin_vel, yaw_vel)
+
+        # plot navdata in 2d graph:
+
+        # callback time step:
+        plot.plot("d_time",  dt)
+
+        # onboard speed:
+        plot.plot("v_x",  navdata.vx)
+        plot.plot("v_y",  navdata.vy)
+        plot.plot("v_z",  navdata.vz)
+
+`
+
+    return program
+}
+
+
 class Grid extends React.Component {
     state = {
-        items: ["for-loop.0", "while.1"].map((i) => {
+        items: ["forward.1", "turn left.2", "forward.3"].map((i) => {
             return {
                 i: i.toString(),
                 x: 0,
                 y: 0,
-                w: 2,
+                w: 1,
                 h: 1,
                 isResizable: false,
             };
         }),
         counter: 2,
-        loopData: {"for-loop.0": {value: 1, variable: "i"}, "while.1": {value: 1, variable: "j"}}
+        loopData: {}
     };  
+    sendMsg = () => {
+        //Currently simulator does not respond but leaving here incase we need it in the future
+        const handleResponse = function(e) {
+            // console.log(e.data)
+        }
+        window.addEventListener("message", handleResponse, false)
+
+        //Currently doing nothing but will create the program string by replacing the command array with our code blocks
+        let program = createProgram(this.state.items, this.state.loopData)
+    
+        var iframe = document.getElementById("simulator")
+        iframe.contentWindow.postMessage(JSON.stringify({message: "new program", program: program}), "*")
+
+        //Dont think this works but we arent recieving messages yet anyway
+        return () => window.removeEventListener("message", handleResponse)
+    }
     onFormChange = (event) => {
         var newloopData = this.state.loopData
         var itemId = event.target.getAttribute("data-item")
@@ -85,7 +202,19 @@ class Grid extends React.Component {
 
     onLayoutChange = (layout) => {
         //this.props.onLayoutChange(layout);
-        this.setState({layout: layout});
+        
+        let sorted = [...this.state.items]
+
+        //On layout change need to modify order of items array so we know what comes first when passing to AUTONAVx
+        if (this.state.items.length > 1) {
+            sorted.sort((x, y) => {
+                //JS sort functions just need a negative or positive num to sort
+                //This will find y pos of both items then negate them to get order
+                return layout.find(obj => obj.i === x.i).y - layout.find(obj => obj.i === y.i).y
+            })
+        }
+        
+        this.setState({layout: layout, items: sorted});
     }
 
     removeItem(item) {
@@ -114,6 +243,9 @@ class Grid extends React.Component {
     render() {
         return (
             <div>
+                <div>
+                <Button className="mt-2" onClick={this.sendMsg} style={{display: "block", "marginRight": "0", "marginLeft": "auto"}}>load code</Button>
+                </div>
                 <ResponsiveGridLayout onLayoutChange={this.onLayoutChange}  onBreakpointChange={this.onBreakPointChange} isDroppable={true} onDrop={this.onDrop} {...this.props}>
                     {this.state.items.map((i) => this.createElement(i))}
                 </ResponsiveGridLayout>
