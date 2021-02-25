@@ -20,6 +20,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
+    "springboot-start": "mvn clean install & java -jar target/demo-0.0.1-SNAPSHOT.jar",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
