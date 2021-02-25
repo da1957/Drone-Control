@@ -31,16 +31,13 @@
 				right: 10px;
 				cursor: default;
 			}
-		</style>
-		<!-- <script>
-			const respondToMessage = function(e) {
-				if(e.data == 'sizing?') {
-					e.source.postMessage('sizing:'+document.body.scrollHeight+','+document.body.scrollWidth, e.origin); // we have to listen for 'message' 
-					alert("sent msg back")
-				}
+			#control {
+				background: rgba(0, 0, 0, 0.0);
+				position: absolute;
+				bottom: 5px;
+				right: 5px;
 			}
-			window.addEventListener('message', respondToMessage, false);
-		</script> -->
+		</style>
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -48,6 +45,12 @@
 				<div class="col">
 					<div id="viewport">
 						<div id="overlay">some text overlay</div>
+						<div id="control">
+							<div class="btn-group">
+								<button id="run-simulation" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-play"></span></button>
+								<button id="stop-simulation" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-stop"></button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

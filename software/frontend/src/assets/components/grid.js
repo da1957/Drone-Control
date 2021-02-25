@@ -40,7 +40,7 @@ function createProgram(items, loopData) {
                     var loopItems = itemsCopy.slice(index+1)
 
                     if (loopData[item.i].value > 0) { //if loop val is 0 items below should only appear once but they are already in array
-                        for (var i = 0; i <= loopData[item.i].value; i++) {
+                        for (var i = 0; i < loopData[item.i].value; i++) {
                             itemsCopy.push.apply(itemsCopy, loopItems)
                         }
                     }
@@ -50,7 +50,7 @@ function createProgram(items, loopData) {
                     var loopItems = itemsCopy.slice(index+1)
 
                     if (loopData[item.i].value > 0) { //if loop val is 0 items below should only appear once but they are already in array
-                        for (var i = loopData[item.i].value; i >= 0; i--) {
+                        for (var i = loopData[item.i].value; i > 0; i--) {
                             itemsCopy.push.apply(itemsCopy, loopItems)
                         }
                     }
@@ -65,7 +65,6 @@ function createProgram(items, loopData) {
                     break
         }
     }
-    console.log(cmds)
 
     var cmdsString = "commands = [".concat(cmds, "]")
 
@@ -123,18 +122,18 @@ class InternalCode:
 
 class Grid extends React.Component {
     state = {
-        items: ["for-loop.0", "while.1"].map((i) => {
+        items: ["forward.1", "turn left.2", "forward.3"].map((i) => {
             return {
                 i: i.toString(),
                 x: 0,
                 y: 0,
-                w: 2,
+                w: 1,
                 h: 1,
                 isResizable: false,
             };
         }),
         counter: 2,
-        loopData: {"for-loop.0": {value: 1, variable: "i"}, "while.1": {value: 1, variable: "j"}}
+        loopData: {}
     };  
     sendMsg = () => {
         //Currently simulator does not respond but leaving here incase we need it in the future
@@ -208,7 +207,7 @@ class Grid extends React.Component {
 
         //On layout change need to modify order of items array so we know what comes first when passing to AUTONAVx
         if (this.state.items.length > 1) {
-            sorted.sort(function(x, y) {
+            sorted.sort((x, y) => {
                 //JS sort functions just need a negative or positive num to sort
                 //This will find y pos of both items then negate them to get order
                 return layout.find(obj => obj.i === x.i).y - layout.find(obj => obj.i === y.i).y
@@ -245,7 +244,7 @@ class Grid extends React.Component {
         return (
             <div>
                 <div>
-                <Button className="mt-2" onClick={this.sendMsg} style={{display: "block", "marginRight": "0", "marginLeft": "auto"}}>run</Button>
+                <Button className="mt-2" onClick={this.sendMsg} style={{display: "block", "marginRight": "0", "marginLeft": "auto"}}>load code</Button>
                 </div>
                 <ResponsiveGridLayout onLayoutChange={this.onLayoutChange}  onBreakpointChange={this.onBreakPointChange} isDroppable={true} onDrop={this.onDrop} {...this.props}>
                     {this.state.items.map((i) => this.createElement(i))}

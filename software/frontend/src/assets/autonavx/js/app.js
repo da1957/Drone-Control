@@ -94,7 +94,7 @@ require(['require', 'domReady', 'jquery', 'init/editor', 'init/grapher', 'init/v
             var data = JSON.parse(e.data)
             if(data.message == 'new program') {
                 string = data.program
-                run_simulation()
+                run()
             }
         }
         window.addEventListener('message', respondToMessage, false);
@@ -152,19 +152,15 @@ require(['require', 'domReady', 'jquery', 'init/editor', 'init/grapher', 'init/v
 
         require('init/keybindings')(viewer, simulation_input);
 
-        $('#run').click(function() {
+        function run() {
             // var code = augment_user_code(editor.getSession().getValue());
             var code = augment_user_code(string)
-            console.log("hellohellohellohellohellohello")
-            console.log(code)
             logview.empty(code);
 
             try {
                 // editor.getSession().setAnnotations([]);
 
                 var result = vm.run(code);
-                console.log("REsult is:")
-                console.log(result);
                 if(result !== undefined) {
                     console.log(vm.toNativeArray(result));
                 }
@@ -185,7 +181,7 @@ require(['require', 'domReady', 'jquery', 'init/editor', 'init/grapher', 'init/v
                     // }]);
                 }
             }
-        });
+        };
 
         var last_render = 0;
 
@@ -231,67 +227,6 @@ require(['require', 'domReady', 'jquery', 'init/editor', 'init/grapher', 'init/v
         beacons.push(viewer.createBeacon([-4, -5, 10]));
         beacons.push(viewer.createBeacon([-4, -3, -3]));
         beacons.push(viewer.createBeacon([10, 10, 10]));
-
-        function run_simulation() {
-            update_simulation_buttons(true);
-            viewer.focus();
-
-            // var code = editor.getSession().getValue();
-			var code = string
-
-            logview.empty();
-            viewer.reset();
-            // grapher.reset();
-            $.each(beacons, function(idx, beacon) {
-                beacon.setInactive();
-                beacons_active_count = 0
-            });
-
-            var simulation_step_count = 0;
-            // editor.getSession().setAnnotations([]);
-
-            simulation.initialize();
-            // TODO: set frequencies for callbacks, i.e., input 20Hz, pose update 60Hz, ...
-            var success = simulation.run(code, function(time, data) {
-                simulation.setInput(simulation_input);
-                simulation_step_count += 1;
-
-                if(simulation_step_count % 2 != 0) return;
-                simulation_step_count = 0;
-                $.each(data, function(type, value) {
-                    if(plot_fcns[type] !== undefined) {
-                        plot_fcns[type](time, value);
-                    }
-                });
-
-                $.each(beacons, function(idx, beacon) {
-                    if(!beacon.isActive() && beacon.distanceToDrone() < 0.5) {
-                        beacon.setActive();
-                        beacons_active_count += 1
-                    }
-                });
-            }, function() {
-                update_simulation_buttons(false);
-            }, function(error) {
-                if(error.filename == '<stdin>.py') {
-                    // editor.getSession().setAnnotations([{
-                    //     text: error.message,
-                    //     type: 'error',
-                    //     row: error.lineno - 1
-                    // }]);
-                } else {
-                    console.log(error);
-                }
-            }, {
-                'async': true,
-                'duration': Infinity,
-            });
-
-            if(!success) {
-                update_simulation_buttons(false);
-            }
-        }
-
         $('#run-simulation').click(function() {
             update_simulation_buttons(true);
             viewer.focus();
