@@ -1,4 +1,4 @@
-<div align:"center">
+<div align="center">
   
   # DroneControl
   Live demo: https://blissful-spence-1b1b6e.netlify.app/
