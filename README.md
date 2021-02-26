@@ -4,6 +4,7 @@
   Live demo: https://blissful-spence-1b1b6e.netlify.app/
   
   [![spe-uob](https://circleci.com/gh/spe-uob/DroneControl.svg?style=svg&circle-token=6a0a470141397038f88ba3abb834c0ef1542e7ff)](https://app.circleci.com/pipelines/github/spe-uob/DroneControl)
+  [![frontend coverage](https://github.com/ConnorCairns/DroneControl/workflows/frontend-coverage/badge.svg?branch=main)]
 
 </div>
 
