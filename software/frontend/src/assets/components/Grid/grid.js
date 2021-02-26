@@ -35,9 +35,10 @@ export function createProgram(items, loopData) {
         //Works as /xxx/.test(string) looks for substring xxx in string
         //As we are switching on true first case that evaluates to true will be picked
         //TODO: Refactor this
+        var loopItems = []
         switch(true) {
                 case /for-loop/.test(itemName):
-                    var loopItems = itemsCopy.slice(index+1)
+                    loopItems = itemsCopy.slice(index+1)
 
                     if (loopData[item.i].value > 0) { //if loop val is 0 items below should only appear once but they are already in array
                         for (var i = 0; i < loopData[item.i].value; i++) {
@@ -47,10 +48,10 @@ export function createProgram(items, loopData) {
 
                     break
                 case /while/.test(itemName):
-                    var loopItems = itemsCopy.slice(index+1)
+                    loopItems = itemsCopy.slice(index+1)
 
                     if (loopData[item.i].value > 0) { //if loop val is 0 items below should only appear once but they are already in array
-                        for (var i = loopData[item.i].value; i > 0; i--) {
+                        for (var j = loopData[item.i].value; j > 0; j--) {
                             itemsCopy.push.apply(itemsCopy, loopItems)
                         }
                     }
@@ -190,7 +191,7 @@ export class Grid extends React.Component {
                 }
 
                 <Col>
-                    <a className="btn" onClick={this.removeItem.bind(this, item)}>close</a>
+                    <a href="/#" className="btn" onClick={this.removeItem.bind(this, item)}>close</a>
                 </Col>
             </div>
         );
