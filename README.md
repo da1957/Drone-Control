@@ -15,4 +15,46 @@ Intended to support at least 50 concurrent users, scalable to more and to run on
 
 ## Usage
 
-Please see docs for usage.
+#### Prerequisites
+* Node.js
+* Maven
+* JDK
+
+### Development Install
+Clone the repo
+
+```
+git clone https://github.com/spe-uob/DroneControl.git`
+```
+
+Install required packages in frontend
+
+```
+cd software/frontend
+npm install
+```
+
+Start development server with hot reload etc
+
+```
+npm start
+```
+
+Server should now be running on `localhost:3000`
+
+### Production build with backend
+Create jar file
+
+```
+cd software/backend
+mvn clean install
+```
+
+Run jar
+
+```
+java -jar target/demo-0.0.1-SNAPSHOT.jar
+```
+
+Server should now be running on `localhost:8080`
+
