@@ -1,4 +1,4 @@
-import Navbar from './assets/components/navbar';
+import Navbar from './assets/components/Navbar/navbar';
 import Main from './Main'
 
 

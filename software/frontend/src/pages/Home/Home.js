@@ -1,5 +1,5 @@
-import IDE from '../assets/components/ide'
-import Simulator from '../assets/components/simulator'
+import IDE from '../../assets/components/IDE/ide'
+import Simulator from '../../assets/components/Simulator/simulator'
 import { Container } from 'react-bootstrap'
 function App() {
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
-import '../css/ide.css';
-import Grid from '../components/grid';
+import './ide.css';
+import { Grid } from '../Grid/grid';
+import { CodeBlocks } from './CodeBlocks/codeBlocks';
 import { Row, Col, Tab, Nav } from 'react-bootstrap'
 
 function SelectorItem(props) {
@@ -20,32 +21,11 @@ function Selector() {
     )
 }
 
-function CodeBlocks(props) {
-    return (
-        <Tab.Content>
-            {Object.entries(props.items).map(([key, value]) => (
-                <Tab.Pane eventKey={key}>
-                    {value}
-                </Tab.Pane>
-            ))}
-        </Tab.Content>
-    )
-}
-function DraggableCodeBlock(props) {
-    var className = "droppable-element code-block " + props.name
-    return (
-        <div className={className} draggable={true} unselectable="on" onDragStart={e => e.dataTransfer.setData("blockType", props.name)}>{props.name}</div>
-    )
-}
-
 function IDE() {
     const movement = ["forward", "backward", "left", "right", "turn left", "turn right"]
     const loops = ["for-loop", "while"]
-    
-    const movementItems = (movement.map(blockName => <DraggableCodeBlock name={blockName} />));
-    const loopItems = (loops.map(blockName => <DraggableCodeBlock name={blockName} />));
 
-    const items = {"Movement": movementItems, "Loops": loopItems}
+    const items = [{category: "Movement", array: movement}, {category: "Loops", array: loops}]
 
     return (
             <Tab.Container defaultActiveKey="Movement">

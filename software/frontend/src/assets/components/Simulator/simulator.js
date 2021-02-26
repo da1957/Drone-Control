@@ -1,4 +1,4 @@
-import '../css/simulator.css';
+import './simulator.css';
 import { Row, Col } from 'react-bootstrap';
 
 function Simulator() {

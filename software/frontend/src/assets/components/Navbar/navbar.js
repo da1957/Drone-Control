@@ -1,8 +1,8 @@
 import React from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom'
-import DroneLogo from '../img/drone.svg';
-import '../css/navbar.css';
+import DroneLogo from '../../img/drone.svg';
+import './navbar.css';
 
 const myNavbar = (props) => {
     return (

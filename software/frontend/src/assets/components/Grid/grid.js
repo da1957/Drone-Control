@@ -1,7 +1,7 @@
 import React from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { InputGroup, FormControl, Col, Button } from 'react-bootstrap'
-import '../css/grid.css'
+import './grid.css'
 
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
@@ -22,7 +22,7 @@ function VariableSelector(props) {
     )
 }
 
-function createProgram(items, loopData) {
+export function createProgram(items, loopData) {
     //Dont want this func changing main items array
     var itemsCopy = [...items]
     var cmds = []
@@ -115,12 +115,11 @@ class InternalCode:
         plot.plot("v_z",  navdata.vz)
 
 `
-
     return program
 }
 
 
-class Grid extends React.Component {
+export class Grid extends React.Component {
     state = {
         items: ["forward.1", "turn left.2", "forward.3"].map((i) => {
             return {
@@ -260,5 +259,3 @@ Grid.defaultProps = {
     rowHeight: 40,
     vertical: false
 }
-
-export default Grid
