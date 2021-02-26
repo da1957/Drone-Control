@@ -1,4 +1,11 @@
-# DroneControl
+<div align:"center">
+  
+  # DroneControl
+  Live demo: https://blissful-spence-1b1b6e.netlify.app/
+  
+  [![spe-uob](https://circleci.com/gh/spe-uob/DroneControl.svg?style=svg&circle-token=6a0a470141397038f88ba3abb834c0ef1542e7ff)](https://app.circleci.com/pipelines/github/spe-uob/DroneControl)
+
+</div>
 
 ## Overview
 
