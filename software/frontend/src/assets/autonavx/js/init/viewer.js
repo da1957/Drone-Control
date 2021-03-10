@@ -28,6 +28,7 @@ define(["jquery", "THREE", "THREE/TrackballControls", "THREE/ColladaLoader"], fu
 		var camera = new THREE.PerspectiveCamera(50, e.innerWidth() / e.innerHeight(), 0.1, 20000);
 		camera.position.z = 1500;
 		camera.position.x = -2000;
+		camera.position.normalize().multiplyScalar(1000);
 		//camera.lookAt(new THREE.Vector3(0, 0, 0))
 		camera.up = new THREE.Vector3(1, 0, 0)
 
@@ -42,6 +43,50 @@ define(["jquery", "THREE", "THREE/TrackballControls", "THREE/ColladaLoader"], fu
 		controls.dynamicDampingFactor = 0.3;
 		controls.keys = [ 65, 83, 68 ];
 		controls.addEventListener('change', render);
+
+		// setup drone
+		var covariance2d = new THREE.Mesh(new THREE.RingGeometry(500, 510, 16, 16), new THREE.MeshBasicMaterial());
+		covariance2d.visible = false;
+
+		var drone = undefined;
+		var drone_motors = [];
+
+		var loader = new ColladaLoader();
+		loader.load('assets/ardrone2.dae', function(result) {
+			console.log("loaded drone model");
+
+			const handleResponse = function(e) {
+				// console.log(e.data)
+			}
+			window.addEventListener('message', handleResponse, false)
+
+			window.parent.postMessage({source: 'drone simulator', message: 'drone loaded'}, "*")
+
+			drone = new THREE.Object3D();
+			drone.add(createAxis())
+			drone.rotation.order = 'ZYX';
+			var model = result.scene;
+			model.rotation.z = -Math.PI * 0.5;
+			drone.add(model);
+
+			drone.add(covariance2d);
+
+			drone.add(camera);
+
+			scene.add(drone);
+			var dir = new THREE.Vector3( 0, 0, 1 ), length = 150, hex = 0xff0000, headLength = 20, headWidth = 20, s = 2.5;
+			drone_motors[0] = new THREE.ArrowHelper( dir, new THREE.Vector3( 27 * s,  42 * s, 0), length, hex, headLength, headWidth);
+			drone_motors[1] = new THREE.ArrowHelper( dir, new THREE.Vector3(-27 * s,  42 * s, 0), length, hex, headLength, headWidth);
+			drone_motors[2] = new THREE.ArrowHelper( dir, new THREE.Vector3(-26 * s, -40 * s, 0), length, hex, headLength, headWidth);
+			drone_motors[3] = new THREE.ArrowHelper( dir, new THREE.Vector3( 26 * s, -40 * s, 0), length, hex, headLength, headWidth);
+
+			$.each(drone_motors, function(idx, motor) {
+				motor.line.material.linewidth = 2;
+				drone.add(motor);
+			});
+		});
+
+		mesh = new THREE.Mesh()
 
 		var renderer = new THREE.WebGLRenderer();
 		renderer.setSize(e.innerWidth(), e.innerHeight());
@@ -100,7 +145,7 @@ define(["jquery", "THREE", "THREE/TrackballControls", "THREE/ColladaLoader"], fu
 			return axis;
 		}
 
-		var loader = new ColladaLoader();
+		// var loader = new ColladaLoader();
 		var grid = new THREE.GridHelper(10000, 250);
 		grid.rotation = new THREE.Euler(Math.PI/2, 0, 0 );
 		scene.add(grid);
@@ -273,35 +318,6 @@ define(["jquery", "THREE", "THREE/TrackballControls", "THREE/ColladaLoader"], fu
 
 		animate();
 
-		var covariance2d = new THREE.Mesh(new THREE.RingGeometry(500, 510, 16, 16), new THREE.MeshBasicMaterial());
-		covariance2d.visible = false;
-
-		var drone = undefined;
-		var drone_motors = [];
-		loader.load('assets/ardrone2.dae', function(result) {
-			console.log("loaded drone model");
-			drone = new THREE.Object3D();
-			drone.add(createAxis())
-			drone.rotation.order = 'ZYX';
-			var model = result.scene;
-			model.rotation.z = -Math.PI * 0.5;
-			drone.add(model);
-
-			drone.add(covariance2d);
-
-			scene.add(drone);
-			var dir = new THREE.Vector3( 0, 0, 1 ), length = 150, hex = 0xff0000, headLength = 20, headWidth = 20, s = 2.5;
-			drone_motors[0] = new THREE.ArrowHelper( dir, new THREE.Vector3( 27 * s,  42 * s, 0), length, hex, headLength, headWidth);
-			drone_motors[1] = new THREE.ArrowHelper( dir, new THREE.Vector3(-27 * s,  42 * s, 0), length, hex, headLength, headWidth);
-			drone_motors[2] = new THREE.ArrowHelper( dir, new THREE.Vector3(-26 * s, -40 * s, 0), length, hex, headLength, headWidth);
-			drone_motors[3] = new THREE.ArrowHelper( dir, new THREE.Vector3( 26 * s, -40 * s, 0), length, hex, headLength, headWidth);
-
-			$.each(drone_motors, function(idx, motor) {
-				motor.line.material.linewidth = 2;
-				drone.add(motor);
-			});
-		});
-
 		return {
 			focus: function() {
 				renderer.domElement.focus();
@@ -382,6 +398,7 @@ define(["jquery", "THREE", "THREE/TrackballControls", "THREE/ColladaLoader"], fu
 				$.each(trajectories, function(name, trajectory) {
 					trajectory.reset();
 				});
+				controls.reset();
 				covariance2d.visible = false;
 			}
 		};

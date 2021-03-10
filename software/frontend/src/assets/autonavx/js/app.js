@@ -229,7 +229,6 @@ require(['require', 'domReady', 'jquery', 'init/editor', 'init/grapher', 'init/v
         beacons.push(viewer.createBeacon([10, 10, 10]));
         $('#run-simulation').click(function() {
             update_simulation_buttons(true);
-            viewer.focus();
 
             // var code = editor.getSession().getValue();
 			var code = string

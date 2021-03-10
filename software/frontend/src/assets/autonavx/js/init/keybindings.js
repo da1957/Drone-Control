@@ -19,11 +19,6 @@ define([], function() {
 			});
 		}
 
-		bindDoF('vx', 'w', 's', 1.75);
-		bindDoF('vy', 'a', 'd', 1.75);
-		bindDoF('vyaw', 'q', 'e', 0.4);
-		bindDoF('vz', 'up', 'down', 0.5);
-
 		viewer.setKeydownHandler('m', function() {
 			input.make_waypoint = true;
 		});
