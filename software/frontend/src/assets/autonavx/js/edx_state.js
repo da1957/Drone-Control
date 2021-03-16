@@ -47,18 +47,17 @@ var Exercise = (function() {
 // This will let the parent window communicate with this application using
 // RPC and bypass SOP restrictions.
 
-window.top.postMessage(JSON.stringify({error: false, message:"Hello World!"}), "*")
 
 if (window.parent !== window) {
-	var channel = Channel.build({
-		window: window.parent,
-		origin: "*",
-		scope: "JSInput"
-	});
+	// var channel = Channel.build({
+	// 	window: window.parent,
+	// 	origin: "*",
+	// 	scope: "JSInput"
+	// });
 	
-	channel.bind("getGrade", function(channel_transaction) { return Exercise.getGrade() });
-	channel.bind("getState", function(channel_transaction) { return Exercise.getState() });
-	channel.bind("setState", function(channel_transaction, state) { return Exercise.setState(state) });
+	// channel.bind("getGrade", function(channel_transaction) { return Exercise.getGrade() });
+	// channel.bind("getState", function(channel_transaction) { return Exercise.getState() });
+	// channel.bind("setState", function(channel_transaction, state) { return Exercise.setState(state) });
 } else {
 	window.Exercise = Exercise;
 }

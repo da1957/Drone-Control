@@ -185,6 +185,7 @@ require(['require', 'domReady', 'jquery', 'init/editor', 'init/grapher', 'init/v
 
         var last_render = 0;
 
+        
         plot_fcns = {
             'scalar': function(time, scalars) {
                 // grapher.refreshGraph(time, scalars);
@@ -216,7 +217,7 @@ require(['require', 'domReady', 'jquery', 'init/editor', 'init/grapher', 'init/v
                 });
             },
         };
-
+        
         var beacons = [];
         beacons.push(viewer.createBeacon([2, 0, 0]));
         beacons.push(viewer.createBeacon([5, 0, 3]));
