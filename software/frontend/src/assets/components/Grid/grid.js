@@ -135,6 +135,7 @@ export class Grid extends React.Component {
         counter: 2,
         loopData: {}
     };  
+
     sendMsg = () => {
         //Currently simulator does not respond but leaving here incase we need it in the future
         const handleResponse = function(e) {
@@ -142,7 +143,6 @@ export class Grid extends React.Component {
         }
         window.addEventListener("message", handleResponse, false)
 
-        //Currently doing nothing but will create the program string by replacing the command array with our code blocks
         let program = createProgram(this.state.items, this.state.loopData)
     
         var iframe = document.getElementById("simulator")
@@ -151,6 +151,7 @@ export class Grid extends React.Component {
         //Dont think this works but we arent recieving messages yet anyway
         return () => window.removeEventListener("message", handleResponse)
     }
+
     onFormChange = (event) => {
         var newloopData = this.state.loopData
         var itemId = event.target.getAttribute("data-item")

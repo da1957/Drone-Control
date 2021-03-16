@@ -3,3 +3,17 @@
     height: 400px;
     position: relative;
 }
+
+.hide {
+    position: absolute;
+    top: -9999px !important;
+    left: -9999px !important;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
