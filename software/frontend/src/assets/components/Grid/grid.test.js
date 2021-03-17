@@ -1,6 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { Grid, createProgram } from './grid';
+import { render } from '@testing-library/react';
+import { Grid } from './grid';
+import { createProgram } from './addCmds'
 
 it('renders Grid', () => {
   render(<Grid />);
@@ -18,7 +19,9 @@ it('creates program correctly', () => {
     };
   });
 
-  expect(createProgram(items, {})).toEqual(simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1)]"));
+  var variableData = {"forward.1": {value: 1}, "turn left.2": {value: 45}, "forward.3": {value: 1}}
+
+  expect(createProgram(items, variableData)).toEqual(simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1)]"));
 });
 
 it('creates looped program', () => {
@@ -33,15 +36,8 @@ it('creates looped program', () => {
     };
   });
 
-  expect(createProgram(items, {"for-loop.0": {value: "2", variable: "i"}})).toEqual(simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45)]"));
+  expect(createProgram(items, {"for-loop.0": {value: "2", variable: "i"}, "forward.1": {value: 1}, "turn left.2": {value: 45},})).toEqual(simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45)]"));
 })
-
-
-
-
-
-
-
 
 const simple_program = (cmds) => `import math
 import plot
