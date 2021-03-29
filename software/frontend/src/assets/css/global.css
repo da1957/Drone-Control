@@ -3,24 +3,26 @@
     src: url(../fonts/neuzeitsltstd.otf)
 }
 
-.code-block {
+.forward, .backward, .left, .right, .up, .down, .for-loop, .while, .turn-right, .turn-left {
     margin: auto;
     border-radius: 3px;
     text-align: center;
-    cursor: pointer;
+    cursor: move;
+    margin-bottom: 5%;
 }
 
-.code-block.for-loop {
+.for-loop {
     background-color: #77ACFC;
-    margin-bottom: 5%;
 }
 
-.code-block.while {
+.while {
     background-color: red;
-    margin-bottom: 5%;
 }
 
-.code-block.forward, .code-block.backward, .code-block.left, .code-block.right, .code-block.right-turn, .code-block.left-turn {
+.turn-right, .turn-left {
+    background-color: green;
+}
+
+.forward, .backward, .left, .right, .up, .down {
     background-color: orange;
-    margin-bottom: 5%;
 }

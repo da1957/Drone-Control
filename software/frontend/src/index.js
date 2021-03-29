@@ -8,6 +8,7 @@ import { Switch, Route } from 'react-router-dom';
 import Navbar from './assets/components/Navbar/navbar';
 import Home from './pages/Home/Home';
 import About from './pages/About/About';
+import './index.css';
 
 ReactDOM.render((
   <BrowserRouter>

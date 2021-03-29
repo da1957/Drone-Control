@@ -108,9 +108,11 @@ export class Grid extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>
-                <Button className="mt-2" onClick={this.sendMsg} style={{display: "block", "marginRight": "0", "marginLeft": "auto"}}>load code</Button>
+            <div className="w-100 h-100 bg-gray-600 rounded">
+                <div className="py-1 bg-gray-500 rounded">
+                    <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.sendMsg}>
+                        <span className="text-white px-2">load code</span>
+                    </button>
                 </div>
                 <ResponsiveGridLayout onLayoutChange={this.onLayoutChange}  onBreakpointChange={this.onBreakPointChange} isDroppable={true} onDrop={this.onDrop} {...this.props}>
                     {this.state.items.map((item) => (<GridElement key={item.i} item={item} variableData={this.state.variableData} onFormChange={this.onFormChange} removeItem={this.removeItem.bind(this, item)} />))}
@@ -122,7 +124,7 @@ export class Grid extends React.Component {
 
 Grid.defaultProps = {
     className: "layout",
-    cols: {lg: 2, md: 2, sm: 2, xs: 2, xxs: 2},
+    cols: {lg: 1, md: 1, sm: 1, xs: 1, xxs: 1},
     rowHeight: 40,
     vertical: false
 }
