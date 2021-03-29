@@ -2,7 +2,7 @@ import React from 'react';
 import { Tab} from 'react-bootstrap'
 
 export const DraggableCodeBlock = ({name}) => {
-  var className = "droppable-element code-block " + name.replace(" ", "-")
+  var className = "droppable-element code-block " + name
 
   return (
       <div className={className} aria-label={name} draggable={true} unselectable="on" onDragStart={e => e.dataTransfer.setData("blockType", name)}>{name}</div>

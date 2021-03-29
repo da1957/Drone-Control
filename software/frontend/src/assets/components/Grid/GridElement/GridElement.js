@@ -6,7 +6,7 @@ function GridElement(props) {
   //Create correct classname with blocktype and size
   //Have to split at a delim as each grid item needs a unique key so had to give them a number
   var blockType = props.item.i.split('.')[0]
-  var customClassName = "droppable-element row ".concat(blockType.replace(" ", "-"))
+  var customClassName = "droppable-element code-block row ".concat(blockType)
 
   var loop = false
   //TODO: set to constant
