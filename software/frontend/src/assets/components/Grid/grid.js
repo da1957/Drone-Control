@@ -1,6 +1,5 @@
 import React from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import { Button } from 'react-bootstrap'
 import './grid.css'
 import './addCmds'
 import createProgram from './addCmds';
@@ -74,7 +73,7 @@ export class Grid extends React.Component {
         var uniqueName = blockType + "." + this.state.counter
 
         var newvariableData = this.state.variableData
-        if (["for-loop", "while"].includes(blockType)) {
+        if (["for loop", "while"].includes(blockType)) {
             newvariableData[uniqueName] = {value: 1, variable: "i"}
             layoutItem.w = 2
         } else if (["turn left", "turn right"].includes(blockType)) {
@@ -108,13 +107,15 @@ export class Grid extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>
-                <Button className="mt-2" onClick={this.sendMsg} style={{display: "block", "marginRight": "0", "marginLeft": "auto"}}>load code</Button>
+            <div className="w-full bg-gray-600 rounded">
+                <div className="py-1 bg-gray-500 rounded">
+                    <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.sendMsg}>
+                        <span className="text-white px-2">load code</span>
+                    </button>
                 </div>
                 <ResponsiveGridLayout onLayoutChange={this.onLayoutChange}  onBreakpointChange={this.onBreakPointChange} isDroppable={true} onDrop={this.onDrop} {...this.props}>
                     {this.state.items.map((item) => (<GridElement key={item.i} item={item} variableData={this.state.variableData} onFormChange={this.onFormChange} removeItem={this.removeItem.bind(this, item)} />))}
-                    </ResponsiveGridLayout>
+                </ResponsiveGridLayout>
             </div>
         )
     }
@@ -122,7 +123,7 @@ export class Grid extends React.Component {
 
 Grid.defaultProps = {
     className: "layout",
-    cols: {lg: 2, md: 2, sm: 2, xs: 2, xxs: 2},
+    cols: {lg: 1, md: 1, sm: 1, xs: 1, xxs: 1},
     rowHeight: 40,
     vertical: false
 }

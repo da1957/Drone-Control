@@ -1,12 +1,11 @@
-import IDE from '../../assets/components/IDE/ide'
-import Simulator from '../../assets/components/Simulator/simulator'
-import { Container } from 'react-bootstrap'
+import IDE from '../../assets/components/IDE/Ide'
+import Simulator from '../../assets/components/Simulator/Simulator'
 function App() {
   return (
-    <Container fluid className="my-2">
+    <div className="mx-2 my-2">
       <Simulator />
       <IDE />
-    </Container>
+    </div>
   );
 }
 
