@@ -1,15 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Simulator from './simulator';
+import Simulator from './Simulator';
 
 it('renders simulator', () => {
   render(<Simulator />);
-});
-
-it('initially displays loading spinner', () => {
-  const { container } = render(<Simulator />);
-  
-  expect(container.textContent).toContain("Loading...")
 });
 
 // TODO: Test it switches to iframe once loaded, I cant figure out how to do this easily 

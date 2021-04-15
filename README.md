@@ -17,9 +17,7 @@ Intended to support at least 50 concurrent users, scalable to more and to run on
 ## Usage
 
 #### Prerequisites
-* Node.js
-* Maven
-* JDK
+* Node.js v15+
 
 ### Development Install
 Clone the repo

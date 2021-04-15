@@ -25,7 +25,7 @@ it('creates program correctly', () => {
 });
 
 it('creates looped program', () => {
-  var items = ["for-loop.0", "forward.1", "turn left.2"].map((i) => {
+  var items = ["for loop.0", "forward.1", "turn left.2"].map((i) => {
     return {
         i: i.toString(),
         x: 0,
@@ -36,7 +36,7 @@ it('creates looped program', () => {
     };
   });
 
-  expect(createProgram(items, {"for-loop.0": {value: "2", variable: "i"}, "forward.1": {value: 1}, "turn left.2": {value: 45},})).toEqual(simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45)]"));
+  expect(createProgram(items, {"for loop.0": {value: "2", variable: "i"}, "forward.1": {value: 1}, "turn left.2": {value: 45},})).toEqual(simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45)]"));
 })
 
 const simple_program = (cmds) => `import math

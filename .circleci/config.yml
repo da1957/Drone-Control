@@ -1,8 +1,13 @@
 version: 2.1
-orbs:
-  node: circleci/node@3.0.0
-workflows:
-  node-tests:
-    jobs:
-      - node/test:
-          app-dir: software/frontend
+jobs:
+  build: 
+    docker:     
+      - image: cimg/node:15.14.0
+    steps:
+      - checkout
+      - run:
+          name: Installing packages
+          command: cd software/frontend && npm ci
+      - run:
+          name: Running tests
+          command: cd software/frontend && npm test

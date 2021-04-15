@@ -1,9 +1,27 @@
+const getCmd = (item, variableData) => {
+    let itemName = item.i.split('.')[0]
+    let cmd = ""
+
+    switch(true) {
+        case /turn/.test(itemName):
+            cmd = "cmd.".concat(itemName.replace(' ', '_'), `(${variableData[item.i].value})`)
+            break
+        default:
+            cmd = "cmd.".concat(itemName, `(${variableData[item.i].value})`)
+            break
+    }
+
+    return cmd
+}
+
 export function createProgram(items, variableData) {
     //Dont want this func changing main items array
     var itemsCopy = [...items]
     var cmds = []
 
-    for (var index = 0; index < itemsCopy.length; index++) {
+    var index = 0
+    while (index < itemsCopy.length) {
+        console.log(index)
         let item = itemsCopy[index]
         let itemName = item.i.split('.')[0]
 
@@ -12,41 +30,61 @@ export function createProgram(items, variableData) {
         //As we are switching on true first case that evaluates to true will be picked
         //TODO: Refactor this
         var loopItems = []
+        var endFor
+        var currItemName
         switch(true) {
-                case /for-loop/.test(itemName):
+                case /for loop/.test(itemName):
                     loopItems = itemsCopy.slice(index+1)
 
-                    if (variableData[item.i].value > 0) { //if loop val is 0 items below should only appear once but they are already in array
-                        for (var i = 0; i < variableData[item.i].value; i++) {
-                            itemsCopy.push.apply(itemsCopy, loopItems)
+                    endFor = itemsCopy.length
+                    for (var for_i = 0; for_i <= variableData[item.i].value; for_i++) {
+                        for (var j = 0; j < loopItems.length; j++) {
+                            currItemName = loopItems[j].i.split('.')[0]
+                            console.log(currItemName)
+                            if (currItemName === "for loop" || currItemName === "while" || currItemName === "end for") {
+                                endFor = j + 1
+                                break
+                            } else {
+                                cmds.push(getCmd(loopItems[j], variableData))
+                            }
                         }
                     }
+                    index = endFor //set index to after for loop so program continues parsing from there
 
                     break
                 case /while/.test(itemName):
                     loopItems = itemsCopy.slice(index+1)
 
-                    if (variableData[item.i].value > 0) { //if loop val is 0 items below should only appear once but they are already in array
-                        for (var j = variableData[item.i].value; j > 0; j--) {
-                            itemsCopy.push.apply(itemsCopy, loopItems)
+                    endFor = itemsCopy.length
+                    var while_i = variableData[item.i].value
+                    while (while_i >= 1) {
+                        for (var while_j = 0; while_j < loopItems.length; while_j++) {
+                            currItemName = loopItems[while_j].i.split('.')[0]
+                            if (currItemName === "for-loop" || currItemName === "while") {
+                                endFor = while_j + 1
+                                break
+                            } else {
+                                cmds.push(getCmd(loopItems[while_j], variableData))
+                            }
                         }
+                        while_i--
                     }
+                    index = endFor 
 
                     break
-                case /turn/.test(itemName):
-                    let turn_cmd = "cmd.".concat(itemName.replace(' ', '_'), `(${variableData[item.i].value})`)
-                    cmds.push(turn_cmd)
-
+                case /end for/.test(itemName):
+                    index++
                     break
                 default:
-                    let cmd = "cmd.".concat(itemName, `(${variableData[item.i].value})`)
-                    cmds.push(cmd)
+                    cmds.push(getCmd(item, variableData))
+                    index++
 
                     break
         }
     }
 
     var cmdsString = "commands = [".concat(cmds, "]")
+    console.log(cmdsString)
     
     var program = addCmds(cmdsString)
 
