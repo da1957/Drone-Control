@@ -8,10 +8,12 @@ import GridElement from './GridElement/GridElement'
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
 export class Grid extends React.Component {
+  
+    
     state = {
         items: [],
         layout: [],
-        counter: 2,
+        counter: 0,
         variableData: {},
     };  
 
@@ -42,11 +44,11 @@ export class Grid extends React.Component {
             newvariableData[itemId].variable = event.target.value
         }
 
-        this.setState({ variableData: newvariableData })
+        this.setState({ variableData: newvariableData },this.updateStorage)
     }
 
     onBreakPointChange = (breakpoint, cols) => {
-        this.setState({breakpoint: breakpoint, cols: cols})
+        this.setState({breakpoint: breakpoint, cols: cols},this.updateStorage)
     }
 
     onLayoutChange = (layout) => {
@@ -60,11 +62,11 @@ export class Grid extends React.Component {
                 return layout.find(obj => obj.i === x.i).y - layout.find(obj => obj.i === y.i).y
             })
         }
-        this.setState({layout: sorted})
+        this.setState({layout: sorted},this.updateStorage)
     }
 
     removeItem(item) {
-        this.setState({items: this.state.items.filter(x => x !== item)})
+        this.setState({items: this.state.items.filter(x => x !== item)},this.updateStorage)
     }
 
     onDrop = (layout, layoutItem, event) => {
@@ -101,9 +103,33 @@ export class Grid extends React.Component {
         this.setState({items: sorted, 
             layout: sorted,
             counter: this.state.counter + 1,
-            variableData: newvariableData})
+            variableData: newvariableData},this.updateStorage)
 
     }
+    updateStorage(){
+        localStorage.removeItem("state")
+        localStorage.setItem("state",JSON.stringify(this.state))
+    }
+
+
+     //React Life Cyle
+    componentDidMount(){
+        const state = localStorage.getItem("state")
+        if(state){
+            this.setState(JSON.parse(state))
+        }
+            
+            
+    
+         
+        }
+         
+    
+    
+    
+        
+      
+
 
     render() {
         return (
