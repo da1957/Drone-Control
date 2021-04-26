@@ -13,7 +13,8 @@ function reducer(state, action) {
             return { ...state, breakpoint: action.payload.breakpoint, cols: action.payload.cols }
         }
         case 'layoutChange': {
-            return { ...state, layout: action.payload }
+            console.log(action.payload)
+            return { ...state, layout: action.payload, items: action.payload }
         }
         case 'setState': {
             return action.payload

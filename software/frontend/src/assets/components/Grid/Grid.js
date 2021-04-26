@@ -55,15 +55,15 @@ class Grid extends React.Component {
 
     onLayoutChange = (layout) => {
         var sorted = [...layout]
-
-        //On layout change need to modify order of items array so we know what comes first when passing to AUTONAVx
-        if (this.props.state.items.length > 1) {
-            sorted.sort((x, y) => {
-                //JS sort functions just need a negative or positive num to sort
-                //This will find y pos of both items then negate them to get order
-                return layout.find(obj => obj.i === x.i).y - layout.find(obj => obj.i === y.i).y
-            })
-        }
+         
+        //I do not know why this has to be sorted, layout should be sorted, but sometimes it isnt
+        //sometimes this also sorts backwards and I dont know why
+        //but I do know without sorting it breaks and I wasted half an hour trying to remove it
+        sorted.sort((x, y) => {
+            //JS sort functions just need a negative or positive num to sort
+            //This will find y pos of both items then negate them to get order
+            return layout.find(obj => obj.i === x.i).y - layout.find(obj => obj.i === y.i).y
+        })
 
         this.props.dispatch({ type: "layoutChange", payload: sorted })
         this.updateStorage()
