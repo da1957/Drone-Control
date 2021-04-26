@@ -4,7 +4,7 @@ function reducer(state, action) {
             return addItem(state, action.payload)
         }
         case 'removeItem': {
-            return { ...state, items: action.payload }
+            return { ...state, items: action.payload.items, variableData: action.payload.variableData }
         }
         case 'formChange': {
             return { ...state, variableData: action.payload }
@@ -17,6 +17,9 @@ function reducer(state, action) {
         }
         case 'setState': {
             return action.payload
+        }
+        case 'resetCount': {
+            return { ...state, count: 0 }
         }
         default: {
             return state
