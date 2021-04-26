@@ -11,10 +11,10 @@ function GridElement(props) {
   var endLoop = false
   //TODO: set to constant
   var type = "movement"
-  
+
   if (blockType === "for loop" || blockType === "while") {
-      customClassName = customClassName.concat(" no-flex-wrap")
-      loop = true
+    customClassName = customClassName.concat(" no-flex-wrap")
+    loop = true
   } else if (["end for", "end while"].includes(blockType)) {
     endLoop = true
   } else if (["turn left", "turn right"].includes(blockType)) {
@@ -22,23 +22,23 @@ function GridElement(props) {
   }
 
   return (
-    <div className={`flex items-center ${customClassName} ${props.className} shadow`} key={props.item.i} style={props.style} data-grid={props.item} 
-                    onMouseUp={props.onMouseUp} onMouseDown={props.onMouseDown} onTouchStart={props.onTouchStart} onTouchEnd={props.onTouchEnd}>
+    <div className={`flex items-center ${customClassName} ${props.className} shadow`} key={props.item.i} style={props.style} data-grid={props.item}
+      onMouseUp={props.onMouseUp} onMouseDown={props.onMouseDown} onTouchStart={props.onTouchStart} onTouchEnd={props.onTouchEnd}>
       <div className="flex justify-between mx-4 items-center w-full">
-        <div>
+        <div className="w-24">
           <span className="font-medium tracking-wide text-xl">{blockType}</span>
         </div>
 
-        {loop && !endLoop && 
-            <LoopVariableSelector variableData={props.variableData} item={props.item} onFormChange={props.onFormChange} />
+        {loop && !endLoop &&
+          <LoopVariableSelector variableData={props.variableData} item={props.item} onFormChange={props.onFormChange} />
         }
 
         {!loop && !endLoop &&
-            <VariableSelector item={props.item} variableData={props.variableData} onFormChange={props.onFormChange} type={type} />
+          <VariableSelector item={props.item} variableData={props.variableData} onFormChange={props.onFormChange} type={type} />
         }
 
         <div>
-            <button className="py-1 px-2 rounded-md bg-gray-700 text-gray-100 font-medium hover:bg-gray-600" onClick={props.removeItem}>remove</button>
+          <button className="py-1 px-2 rounded-md bg-gray-700 text-gray-100 font-medium hover:bg-gray-600" onClick={props.removeItem}>remove</button>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ const getCmd = (item, variableData) => {
     let itemName = item.i.split('.')[0]
     let cmd = ""
 
-    switch(true) {
+    switch (true) {
         case /turn/.test(itemName):
             cmd = "cmd.".concat(itemName.replace(' ', '_'), `(${variableData[item.i].value})`)
             break
@@ -14,6 +14,62 @@ const getCmd = (item, variableData) => {
     return cmd
 }
 
+const handleForLoop = (loopValue, startIndex, loopItems, cmds, variableData) => {
+    var endFor = loopItems.length
+
+    for (var i = 0; i <= loopValue; i++) {
+        for (var j = startIndex; j < loopItems.length; j++) {
+            let currItemName = loopItems[j].i.split('.')[0]
+
+            if (currItemName === 'for loop') {
+                ; ({ cmds, endFor } = handleForLoop(variableData[loopItems[j].i].value, j + 1, loopItems, cmds, variableData))
+                j = endFor - 1
+            } else if (currItemName === 'while'){
+                ; ({ cmds, endFor } = handleWhileLoop(variableData[loopItems[j].i].value, j + 1, loopItems, cmds, variableData))
+                j = endFor - 1
+            } else if (currItemName === 'end for') {
+                endFor = j + 1
+                break
+            } else {
+                cmds.push(getCmd(loopItems[j], variableData))
+                endFor = j
+            }
+        }
+    }
+
+    return { cmds, endFor }
+}
+
+//Slightly redundant as this could be achieved with handleForLoop(), but thought it would be good to have incase of future additions
+const handleWhileLoop = (loopValue, startIndex, loopItems, cmds, variableData) => {
+    var endWhile = loopItems.length
+
+    while (loopValue >= 1) {
+        for (var j = startIndex; j < loopItems.length; j++) {
+            let currItemName = loopItems[j].i.split('.')[0]
+
+            if (currItemName === 'for loop') {
+                ; ({ cmds, endFor: endWhile } = handleForLoop(variableData[loopItems[j].i].value, j + 1, loopItems, cmds, variableData))
+                j = endWhile - 1
+            } else if (currItemName === 'while') {
+                ; ({ cmds, endFor: endWhile } = handleWhileLoop(variableData[loopItems[j].i].value, j + 1, loopItems, cmds, variableData))
+                j = endWhile - 1
+            } else if (currItemName === 'end while') {
+                endWhile = j + 1
+                break
+            } else {
+                cmds.push(getCmd(loopItems[j], variableData))
+                endWhile = j
+            }
+        }
+        // console.log(loopValue)
+        loopValue--
+        // console.log(loopValue)
+    }
+
+    return { cmds, endFor: endWhile }
+}
+
 export function createProgram(items, variableData) {
     //Dont want this func changing main items array
     var itemsCopy = [...items]
@@ -21,7 +77,6 @@ export function createProgram(items, variableData) {
 
     var index = 0
     while (index < itemsCopy.length) {
-        console.log(index)
         let item = itemsCopy[index]
         let itemName = item.i.split('.')[0]
 
@@ -29,63 +84,31 @@ export function createProgram(items, variableData) {
         //Works as /xxx/.test(string) looks for substring xxx in string
         //As we are switching on true first case that evaluates to true will be picked
         //TODO: Refactor this
-        var loopItems = []
         var endFor
-        var currItemName
-        switch(true) {
-                case /for loop/.test(itemName):
-                    loopItems = itemsCopy.slice(index+1)
+        switch (true) {
+            case /for loop/.test(itemName):
+                ; ({ cmds, endFor } = handleForLoop(variableData[item.i].value, index + 1, itemsCopy, cmds, variableData))
+                index = endFor //set index to after for loop so program continues parsing from there
 
-                    endFor = itemsCopy.length
-                    for (var for_i = 0; for_i <= variableData[item.i].value; for_i++) {
-                        for (var j = 0; j < loopItems.length; j++) {
-                            currItemName = loopItems[j].i.split('.')[0]
-                            console.log(currItemName)
-                            if (currItemName === "for loop" || currItemName === "while" || currItemName === "end for") {
-                                endFor = j + 1
-                                break
-                            } else {
-                                cmds.push(getCmd(loopItems[j], variableData))
-                            }
-                        }
-                    }
-                    index = endFor //set index to after for loop so program continues parsing from there
+                break
+            case /while/.test(itemName):
+                ; ({ cmds, endFor } = handleWhileLoop(variableData[item.i].value, index + 1, itemsCopy, cmds, variableData))
+                index = endFor 
 
-                    break
-                case /while/.test(itemName):
-                    loopItems = itemsCopy.slice(index+1)
+                break
+            case /end for/.test(itemName):
+                index++
+                break
+            default:
+                cmds.push(getCmd(item, variableData))
+                index++
 
-                    endFor = itemsCopy.length
-                    var while_i = variableData[item.i].value
-                    while (while_i >= 1) {
-                        for (var while_j = 0; while_j < loopItems.length; while_j++) {
-                            currItemName = loopItems[while_j].i.split('.')[0]
-                            if (currItemName === "for-loop" || currItemName === "while") {
-                                endFor = while_j + 1
-                                break
-                            } else {
-                                cmds.push(getCmd(loopItems[while_j], variableData))
-                            }
-                        }
-                        while_i--
-                    }
-                    index = endFor 
-
-                    break
-                case /end for/.test(itemName):
-                    index++
-                    break
-                default:
-                    cmds.push(getCmd(item, variableData))
-                    index++
-
-                    break
+                break
         }
     }
 
     var cmdsString = "commands = [".concat(cmds, "]")
-    console.log(cmdsString)
-    
+
     var program = addCmds(cmdsString)
 
     return program

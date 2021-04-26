@@ -172,8 +172,8 @@ require(['require', 'domReady', 'jquery', 'init/editor', 'init/grapher', 'init/v
                     //     row: e.lineno - 1,
                     // }]);
                 } else {
-                    console.log('Non-Python exception thrown from call to python function!');
-                    console.log(e)
+                    // console.log('Non-Python exception thrown from call to python function!');
+                    // console.log(e)
                     // editor.getSession().setAnnotations([{
                     //     text: e.message,
                     //     type: 'error',
