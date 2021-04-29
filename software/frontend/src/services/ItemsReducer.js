@@ -1,5 +1,3 @@
-import { act } from "react-dom/cjs/react-dom-test-utils.production.min"
-
 function reducer(state, action) {
     switch (action.type) {
         case 'addItem': {
