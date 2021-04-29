@@ -24,7 +24,14 @@ class Grid extends React.Component {
         }
         window.addEventListener("message", handleResponse, false)
 
-        let program = createProgram(this.props.state.layout, this.props.state.variableData)
+        var sorted = [...this.props.state.layout]
+        sorted.sort((x, y) => {
+            //JS sort functions just need a negative or positive num to sort
+            //This will find y pos of both items then negate them to get order
+            return sorted.find(obj => obj.i === x.i).y - sorted.find(obj => obj.i === y.i).y
+        })
+
+        let program = createProgram(sorted, this.props.state.variableData)
 
         var iframe = document.getElementById("simulator")
         iframe.contentWindow.postMessage(JSON.stringify({ message: "new program", program: program }), "*")
@@ -54,18 +61,7 @@ class Grid extends React.Component {
     }
 
     onLayoutChange = (layout) => {
-        var sorted = [...layout]
-         
-        //I do not know why this has to be sorted, layout should be sorted, but sometimes it isnt
-        //sometimes this also sorts backwards and I dont know why
-        //but I do know without sorting it breaks and I wasted half an hour trying to remove it
-        sorted.sort((x, y) => {
-            //JS sort functions just need a negative or positive num to sort
-            //This will find y pos of both items then negate them to get order
-            return layout.find(obj => obj.i === x.i).y - layout.find(obj => obj.i === y.i).y
-        })
-
-        this.props.dispatch({ type: "layoutChange", payload: sorted })
+        this.props.dispatch({ type: "layoutChange", payload: layout })
         this.updateStorage()
     }
 
@@ -97,9 +93,19 @@ class Grid extends React.Component {
 
     //React Life Cyle
     componentDidMount() {
-        const state = localStorage.getItem("state")
-        if (state) {
-            this.props.dispatch({type: "setState", payload: JSON.parse(state)})
+        const JSONstate = localStorage.getItem("state")
+        if (JSONstate) {
+            let state = JSON.parse(JSONstate)
+
+            //need to update items with correct order, items may not be saved with updated y vals
+            //layout always has updated y vals but also needs to be sorted for items
+            //may be a better way to do this but this works
+            state.items = state.layout.sort((x, y) => {
+                return state.layout.find(obj => obj.i === x.i).y - state.layout.find(obj => obj.i === y.i).y
+            })
+
+            console.log(state)
+            this.props.dispatch({type: "setState", payload: state})
         }
     }
 
@@ -126,7 +132,6 @@ Grid.defaultProps = {
     className: "layout",
     cols: { lg: 1, md: 1, sm: 1, xs: 1, xxs: 1 },
     rowHeight: 40,
-    items: 0,
     compactType: "vertical"
 }
 

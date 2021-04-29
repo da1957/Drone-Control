@@ -4,7 +4,7 @@ import Loops from '../../img/loop.svg';
 import Movement from '../../img/movement.svg';
 import Rotation from '../../img/rotation.svg';
 
-const SidebarLink = ({ name, items, addItem }) => {
+const SidebarLink = ({ name, items }) => {
     const img = { "Loops": Loops, "Movement": Movement, "Rotation": Rotation }
 
     return (
@@ -33,7 +33,7 @@ const SidebarLink = ({ name, items, addItem }) => {
                     >
                         <Disclosure.Panel static>
                             <div role="menu" className="mt-2 space-y-2 px-7" aria-label="Dashboards">
-                                {items.map(item => <DraggableCodeBlock name={item} key={item} addItem={addItem}/>)}
+                                {items.map(item => <DraggableCodeBlock name={item} key={item}/>)}
                             </div>
                         </Disclosure.Panel>
                     </Transition>
@@ -43,11 +43,11 @@ const SidebarLink = ({ name, items, addItem }) => {
     )
 }
 
-const Sidebar = ({ items, addItem }) => {
+const Sidebar = ({ items }) => {
 
     return (
         <nav aria-label="main" className="flex-initial w-64 px-2 space-y-2 hover:overflow-y-auto">
-            {items.map(item => <SidebarLink key={item.category} name={item.category} items={item.array} addItem={addItem} />)}
+            {items.map(item => <SidebarLink key={item.category} name={item.category} items={item.array}/>)}
         </nav>
     )
 }

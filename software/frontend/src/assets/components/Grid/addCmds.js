@@ -62,9 +62,7 @@ const handleWhileLoop = (loopValue, startIndex, loopItems, cmds, variableData) =
                 endWhile = j
             }
         }
-        // console.log(loopValue)
         loopValue--
-        // console.log(loopValue)
     }
 
     return { cmds, endFor: endWhile }
@@ -108,6 +106,7 @@ export function createProgram(items, variableData) {
     }
 
     var cmdsString = "commands = [".concat(cmds, "]")
+    console.log(cmdsString)
 
     var program = addCmds(cmdsString)
 
