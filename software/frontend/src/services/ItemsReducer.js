@@ -16,7 +16,7 @@ function reducer(state, action) {
             return { ...state, layout: action.payload }
         }
         case 'setState': {
-            return {... state, ...action.payload}
+            return action.payload
         }
         case 'resetCount': {
             return { ...state, count: 0 }

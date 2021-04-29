@@ -14,7 +14,7 @@ const moveTour = (dispatch) => {
 
 const SidebarLink = ({ name, items }) => {
     const img = { "Loops": Loops, "Movement": Movement, "Rotation": Rotation }
-    const { _, dispatch } = useItemsContext();
+    const { dispatch } = useItemsContext();
 
     return (
         <Disclosure>
