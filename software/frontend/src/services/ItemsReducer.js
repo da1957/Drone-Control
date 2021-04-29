@@ -4,7 +4,7 @@ function reducer(state, action) {
             return addItem(state, action.payload)
         }
         case 'removeItem': {
-            return { ...state, items: action.payload.items, variableData: action.payload.variableData}
+            return { ...state, items: action.payload.items, variableData: action.payload.variableData, layout: action.payload.items }
         }
         case 'formChange': {
             return { ...state, variableData: action.payload }
@@ -13,13 +13,23 @@ function reducer(state, action) {
             return { ...state, breakpoint: action.payload.breakpoint, cols: action.payload.cols }
         }
         case 'layoutChange': {
-            return { ...state, layout: action.payload}
+            return { ...state, layout: action.payload }
         }
         case 'setState': {
-            return action.payload
+            return {... state, ...action.payload}
         }
         case 'resetCount': {
             return { ...state, count: 0 }
+        }
+        case 'incStep': {
+            console.log(state.step)
+            return { ...state, step: state.step + 1 }
+        }
+        case 'decStep': {
+            return { ...state, step: state.step - 1 }
+        }
+        case 'setStep': {
+            return { ...state, step: action.payload }
         }
         default: {
             return state
@@ -53,6 +63,7 @@ const addItem = (state, payload) => {
     })
 
     const newState = {
+        ...state,
         items: sorted,
         layout: sorted,
         count: state.count + 1,

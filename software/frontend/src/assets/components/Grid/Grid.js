@@ -18,6 +18,7 @@ const withHooksHOC = (Component) => {
 
 class Grid extends React.Component {
     sendMsg = () => {
+        if (this.props.state.step === 5) this.props.dispatch({type: "incStep"})
         //Currently simulator does not respond but leaving here incase we need it in the future
         const handleResponse = function (e) {
             // console.log(e.data)
@@ -75,6 +76,7 @@ class Grid extends React.Component {
             items: this.props.state.items.filter(x => x !== item), 
             variableData: newVariableData
         }})
+
         this.updateStorage()
     }
 
@@ -113,11 +115,11 @@ class Grid extends React.Component {
         return (
             <div className="flex flex-col w-full bg-gray-600 rounded">
                 <div className="py-1 bg-gray-500 rounded">
-                    <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.sendMsg}>
+                    <button data-tut="reactour_loadcode" className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.sendMsg}>
                         <span className="text-white px-2">load code</span>
                     </button>
                 </div>
-                <div className="h-full my-2 overflow-y-auto overflow-x-hidden overscroll-none scrollbar-thin scrollbar-thumb-blue-100 scrollbar-track-gray-600">
+                <div data-tut="reactour_grid" className="h-full my-2 overflow-y-auto overflow-x-hidden overscroll-none scrollbar-thin scrollbar-thumb-blue-100 scrollbar-track-gray-600">
                     <ResponsiveGridLayout containerPadding={[10, 0]} style={{ height: "100%" }} onLayoutChange={this.onLayoutChange} onBreakpointChange={this.onBreakPointChange} isDroppable={true} onDrop={this.onDrop} {...this.props}>
                         {this.props.state.items.map((item) => (<GridElement key={item.i} item={item} variableData={this.props.state.variableData} onFormChange={this.onFormChange} removeItem={this.removeItem.bind(this, item)} />))}
                     </ResponsiveGridLayout>
