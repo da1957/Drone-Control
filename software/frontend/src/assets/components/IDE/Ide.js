@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import './ide.css';
 import Grid from '../Grid/Grid';
-import Sidebar from './Sidebar';
+import Sidebar from './Sidebar/Sidebar';
 import ItemsContext from '../../../services/ItemsContext';
 import ItemsReducer from '../../../services/ItemsReducer';
 import Tour from 'reactour';

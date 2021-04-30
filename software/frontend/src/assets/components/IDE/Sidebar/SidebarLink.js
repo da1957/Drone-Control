@@ -1,26 +1,28 @@
-import { DraggableCodeBlock } from './CodeBlocks/codeBlocks';
+import { DraggableCodeBlock } from '../CodeBlocks/codeBlocks';
 import { Disclosure, Transition } from '@headlessui/react';
-import Loops from '../../img/loop.svg';
-import Movement from '../../img/movement.svg';
-import Rotation from '../../img/rotation.svg';
-import { useItemsContext } from '../../../services/ItemsContext';
+import Loops from '../../../img/loop.svg';
+import Movement from '../../../img/movement.svg';
+import Rotation from '../../../img/rotation.svg';
+import { useItemsContext } from '../../../../services/ItemsContext';
 
-const moveTour = (dispatch) => {
+const moveTour = (state, dispatch) => {
     //Have to wait 250ms for animation to play out so tour can find panel
-    setTimeout(function () {
-        dispatch({type: "incStep"})
-    }, 250);
+    if (state.step === 1) {
+        setTimeout(function () {
+            dispatch({type: "incStep"})
+        }, 250);
+    }
 }
 
 const SidebarLink = ({ name, items }) => {
     const img = { "Loops": Loops, "Movement": Movement, "Rotation": Rotation }
-    const { dispatch } = useItemsContext();
+    const { state, dispatch } = useItemsContext();
 
     return (
         <Disclosure>
             {({ open }) => (
                 <>
-                    <div onClick={() => moveTour(dispatch)}>
+                    <div onClick={() => moveTour(state, dispatch)}>
                         <Disclosure.Button className={`no-text-decoration w-full flex items-center p-2 text-gray-500 transition-colors rounded-md hover:bg-blue-100 focus:outline-none ${open ? "bg-blue-100" : ""}`} data-tut={`reactour_${name}`}>
                             <span className="w-7">
                                 <img src={img[name]} alt={name} />
@@ -54,13 +56,4 @@ const SidebarLink = ({ name, items }) => {
     )
 }
 
-const Sidebar = ({ items }) => {
-
-    return (
-        <nav aria-label="main" className="flex-initial w-64 px-2 space-y-2 hover:overflow-y-auto" data-tut="reactour_selector">
-            {items.map(item => <SidebarLink key={item.category} name={item.category} items={item.array} />)}
-        </nav>
-    )
-}
-
-export default Sidebar
+export default SidebarLink
