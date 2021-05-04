@@ -35,7 +35,7 @@ class Grid extends React.Component {
         let program = createProgram(sorted, this.props.state.variableData)
 
         var iframe = document.getElementById("simulator")
-        iframe.contentWindow.postMessage(JSON.stringify({ message: "new program", program: program }), "*")
+        iframe.contentWindow.postMessage(JSON.stringify({ message: "new program", program: program }), "https://hopeful-sammet-24b01a.netlify.app/")
 
         //Dont think this works but we arent recieving messages yet anyway
         return () => window.removeEventListener("message", handleResponse)
@@ -106,7 +106,6 @@ class Grid extends React.Component {
                 return state.layout.find(obj => obj.i === x.i).y - state.layout.find(obj => obj.i === y.i).y
             })
 
-            console.log(state)
             this.props.dispatch({type: "setState", payload: state})
         }
     }

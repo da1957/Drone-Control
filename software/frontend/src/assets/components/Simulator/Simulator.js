@@ -11,7 +11,7 @@ function Simulator() {
         }
 
         window.addEventListener("message", handleMsg, false);
-    })
+    }, [])
 
     const [loaded, setLoaded] = useState(false);
 
