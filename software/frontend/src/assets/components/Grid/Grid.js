@@ -27,7 +27,6 @@ class Grid extends React.Component {
         this.saveBlocks = this.saveBlocks.bind(this);
         this.uploadBlocks = this.uploadBlocks.bind(this);
         this.loadBlocks = this.loadBlocks.bind(this);
-        this.testing = this.testing.bind(this);
     }
 
     sendMsg = () => {
@@ -169,35 +168,29 @@ class Grid extends React.Component {
         reader.readAsText(fileObj);
     }
 
-    testing() {
-        console.log("state", localStorage.getItem("state"), "state")
-    }
-
     render() {
         return (
             <div className="flex flex-col w-full bg-gray-600 rounded">
+                <a className="hidden" download = "program.txt" href={this.state.fileDownloadUrl} ref={e=>this.dofileDownload = e}>download</a>
+                <input type="file" className="hidden" multiple={false} accept=".txt,.text,text/csv,text/plain" onChange={event => this.loadBlocks(event)} ref={e=>this.dofileUpload = e} />
                 <div className="py-1 bg-gray-500 rounded">
-                    <button onClick={this.saveBlocks}>
-                        <span className="text-white px-2">save</span>
-                    </button>
-                    <a className="hidden" download = "program.txt" href={this.state.fileDownloadUrl} ref={e=>this.dofileDownload = e}>download</a>
-                    <button onClick={this.uploadBlocks}>
-                        <span className="text-white px-2">upload</span>
-                    </button>
-                    <input type="file" className="hidden" multiple={false} accept=".txt,.text,text/csv,text/plain" onChange={event => this.loadBlocks(event)} ref={e=>this.dofileUpload = e} />
-                    <button onClick={this.testing}>
-                        <span className="text-white px-2">testing</span>
-                    </button>
-                    <button data-tut="reactour_loadcode" className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.sendMsg}>
-                        <span className="text-white px-2">load code</span>
-                    </button>
-                </div>
+                    <div className="btns">
+                        <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.saveBlocks}>
+                            <span className="text-white px-2">save codeblocks</span>
+                        </button>
+                        <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.uploadBlocks}>
+                            <span className="text-white px-2">upload codeblocks</span>
+                        </button>
+                        <button data-tut="reactour_loadcode" className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.sendMsg}>
+                            <span className="text-white px-2">load code</span>
+                        </button>
+                    </div>
+                </ div>
                 <div data-tut="reactour_grid" className="h-full my-2 overflow-y-auto overflow-x-hidden overscroll-none scrollbar-thin scrollbar-thumb-blue-100 scrollbar-track-gray-600">
                     <ResponsiveGridLayout containerPadding={[10, 0]} style={{ height: "100%" }} onLayoutChange={this.onLayoutChange} onBreakpointChange={this.onBreakPointChange} isDroppable={true} onDrop={this.onDrop} {...this.props}>
                         {this.props.state.items.map((item) => (<GridElement key={item.i} item={item} variableData={this.props.state.variableData} onFormChange={this.onFormChange} removeItem={this.removeItem.bind(this, item)} />))}
                     </ResponsiveGridLayout>
                 </div>
-                <div></div>
             </div>
         )
     }
