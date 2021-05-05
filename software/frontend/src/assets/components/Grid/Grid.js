@@ -24,9 +24,6 @@ class Grid extends React.Component {
         this.state = {
             fileDownloadUrl: null,
         };
-        this.saveBlocks = this.saveBlocks.bind(this);
-        this.uploadBlocks = this.uploadBlocks.bind(this);
-        this.loadBlocks = this.loadBlocks.bind(this);
     }
 
     sendMsg = () => {
@@ -122,7 +119,7 @@ class Grid extends React.Component {
         }
     }
 
-    saveBlocks(event) {
+    saveBlocks = (event) => {
         event.preventDefault();
         let blocks = localStorage.getItem("state");
         const blob = new Blob([blocks]);
@@ -137,12 +134,12 @@ class Grid extends React.Component {
           })
     }
 
-    uploadBlocks(event) {
+    uploadBlocks = (event) => {
         event.preventDefault();
         this.dofileUpload.click()
     }
 
-    loadBlocks(event) {
+    loadBlocks = (event) => {
         const fileObj = event.target.files[0];
         const reader = new FileReader();
           
@@ -171,16 +168,18 @@ class Grid extends React.Component {
     render() {
         return (
             <div className="flex flex-col w-full bg-gray-600 rounded">
-                <a className="hidden" download = "program.txt" href={this.state.fileDownloadUrl} ref={e=>this.dofileDownload = e}>download</a>
-                <input type="file" className="hidden" multiple={false} accept=".txt,.text,text/csv,text/plain" onChange={event => this.loadBlocks(event)} ref={e=>this.dofileUpload = e} />
+                <a className="hidden" download = "program.drone" href={this.state.fileDownloadUrl} ref={e=>this.dofileDownload = e}>download</a>
+                <input type="file" className="hidden" multiple={false} accept=".drone" onChange={event => this.loadBlocks(event)} ref={e=>this.dofileUpload = e} />
                 <div className="py-1 bg-gray-500 rounded">
-                    <div className="btns">
-                        <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.saveBlocks}>
-                            <span className="text-white px-2">save codeblocks</span>
-                        </button>
-                        <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.uploadBlocks}>
-                            <span className="text-white px-2">upload codeblocks</span>
-                        </button>
+                    <div className="flex">
+                        <div className="flex justify-start ml-1">
+                            <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.saveBlocks}>
+                                <span className="text-white px-2">save</span>
+                            </button>
+                            <button className="block ml-auto mr-1 bg-green-400 rounded py-2 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" onClick={this.uploadBlocks}>
+                                <span className="text-white px-2">upload</span>
+                            </button>
+                        </div>
                         <button data-tut="reactour_loadcode" className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.sendMsg}>
                             <span className="text-white px-2">load code</span>
                         </button>
