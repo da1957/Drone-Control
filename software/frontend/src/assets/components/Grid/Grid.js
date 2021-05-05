@@ -17,6 +17,18 @@ const withHooksHOC = (Component) => {
 }
 
 class Grid extends React.Component {
+
+    constructor(props) {
+        super(props)
+        
+        this.state = {
+            fileDownloadUrl: null,
+        };
+        this.saveBlocks = this.saveBlocks.bind(this);
+        this.uploadBlocks = this.uploadBlocks.bind(this);
+        this.loadBlocks = this.loadBlocks.bind(this);
+    }
+
     sendMsg = () => {
         if (this.props.state.step === 5) this.props.dispatch({type: "incStep"})
         //Currently simulator does not respond but leaving here incase we need it in the future
@@ -110,20 +122,75 @@ class Grid extends React.Component {
         }
     }
 
+    saveBlocks(event) {
+        event.preventDefault();
+        let blocks = localStorage.getItem("state");
+        const blob = new Blob([blocks]);
+        const fileDownloadUrl = URL.createObjectURL(blob);
+
+        this.setState ({fileDownloadUrl: fileDownloadUrl}, 
+            () => {
+              this.dofileDownload.click(); 
+              // Free up storage
+              URL.revokeObjectURL(fileDownloadUrl);
+              this.setState({fileDownloadUrl: ""})
+          })
+    }
+
+    uploadBlocks(event) {
+        event.preventDefault();
+        this.dofileUpload.click()
+    }
+
+    loadBlocks(event) {
+        const fileObj = event.target.files[0];
+        const reader = new FileReader();
+          
+        let fileloaded = e => {
+            const fileContents = e.target.result;
+            localStorage.removeItem("state")
+            localStorage.setItem("state", fileContents)
+
+            const JSONstate = localStorage.getItem("state")
+            if (JSONstate) {
+                let state = JSON.parse(JSONstate)
+
+                state.items = state.layout.sort((x, y) => {
+                    return state.layout.find(obj => obj.i === x.i).y - state.layout.find(obj => obj.i === y.i).y
+                })
+
+                this.props.dispatch({type: "setState", payload: state})
+            }
+        }
+      
+        fileloaded = fileloaded.bind(this);
+        reader.onload = fileloaded;
+        reader.readAsText(fileObj);
+    }
+
     render() {
         return (
             <div className="flex flex-col w-full bg-gray-600 rounded">
+                <a className="hidden" download = "program.txt" href={this.state.fileDownloadUrl} ref={e=>this.dofileDownload = e}>download</a>
+                <input type="file" className="hidden" multiple={false} accept=".txt,.text,text/csv,text/plain" onChange={event => this.loadBlocks(event)} ref={e=>this.dofileUpload = e} />
                 <div className="py-1 bg-gray-500 rounded">
-                    <button data-tut="reactour_loadcode" className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.sendMsg}>
-                        <span className="text-white px-2">load code</span>
-                    </button>
-                </div>
+                    <div className="btns">
+                        <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.saveBlocks}>
+                            <span className="text-white px-2">save codeblocks</span>
+                        </button>
+                        <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.uploadBlocks}>
+                            <span className="text-white px-2">upload codeblocks</span>
+                        </button>
+                        <button data-tut="reactour_loadcode" className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.sendMsg}>
+                            <span className="text-white px-2">load code</span>
+                        </button>
+                    </div>
+                </ div>
                 <div data-tut="reactour_grid" className="h-full my-2 overflow-y-auto overflow-x-hidden overscroll-none scrollbar-thin scrollbar-thumb-blue-100 scrollbar-track-gray-600">
                     <ResponsiveGridLayout containerPadding={[10, 0]} style={{ height: "100%" }} onLayoutChange={this.onLayoutChange} onBreakpointChange={this.onBreakPointChange} isDroppable={true} onDrop={this.onDrop} {...this.props}>
                         {this.props.state.items.map((item) => (<GridElement key={item.i} item={item} variableData={this.props.state.variableData} onFormChange={this.onFormChange} removeItem={this.removeItem.bind(this, item)} />))}
                     </ResponsiveGridLayout>
                 </div>
-                <div></div>
             </div>
         )
     }

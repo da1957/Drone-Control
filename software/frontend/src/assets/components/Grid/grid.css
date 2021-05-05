@@ -9,3 +9,9 @@
 .h-full {
     height: 100% !important;
 }
+
+.btns {
+    display: inline-flex;
+    padding: 5px;
+    float: left;
+}
