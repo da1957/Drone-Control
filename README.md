@@ -18,13 +18,24 @@ Intended to support at least 50 concurrent users, scalable to more and to run on
 
 #### Prerequisites
 * Node.js v15+
+* http-server or similar
 
-### Development Install
+### Development Setup
 Clone the repo
 
 ```
 git clone https://github.com/spe-uob/DroneControl.git
 ```
+
+Start AUTONAVx server
+
+```
+cd software/frontend/src/assets/autonavx
+http-server
+```
+
+Now that AUTONAVx is running, you will need to modify `line 38 in Grid.js` and `line 25 in Simulator.js` so the URL for `postMessage` matches the URL where AUTONAVx is running. If using http-server this should default to `http://127.0.0.1:8080`
+
 
 Install required packages in frontend
 
@@ -39,11 +50,35 @@ Start development server with hot reload etc
 npm start
 ```
 
-Server should now be running on `localhost:3000`
+You now should be able to access the website at `localhost:3000`
 
 ### Production Deploy
 
-AUTONAVx and the frontend are deployed seperately on different servers, because of this `line 38 in Grid.js` and `line 25 in Simulator.js` need to be modified with the URL of AUTONAVx.
+For `postMessage` to work without errors some headers need to be set, the required headers can be found in the root directory of AUTONAVx and the frontend in the `netlify.toml` file. If you are deploying somewhere else you will need to create a config for your specific webserver.
 
-The required headers can be found in the root directory of AUTONAVx and the frontend in the `netlify.toml` file. If you are deploying somewhere else you will need to create a config for your specific webserver.
+Start AUTONAVx server
+
+```
+cd software/frontend/src/assets/autonavx
+http-server
+```
+
+Modify the `postMessage` URL as in the development setup
+
+Build the frontend
+
+```
+cd software/frontend
+npm run build
+```
+
+And deploy
+
+```
+cd build
+http-server
+```
+
+Website is now up and running
+
 
