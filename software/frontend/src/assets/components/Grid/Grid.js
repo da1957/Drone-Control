@@ -172,7 +172,7 @@ class Grid extends React.Component {
                 <input type="file" className="hidden" multiple={false} accept=".drone" onChange={event => this.loadBlocks(event)} ref={e=>this.dofileUpload = e} />
                 <div className="py-1 bg-gray-500 rounded">
                     <div className="flex">
-                        <div className="flex justify-start ml-1">
+                        <div data-tut="reactour_save" className="flex justify-start ml-1">
                             <button className="block ml-auto mr-1 bg-blue-500 rounded py-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" onClick={this.saveBlocks}>
                                 <span className="text-white px-2">save</span>
                             </button>
