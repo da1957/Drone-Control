@@ -26,7 +26,7 @@ const steps = [
     },
     {
         selector: '[data-tut="reactour_Movement"]',
-        content: "Each section can be expanded to show the code blocks, click on 'Movement'",
+        content: "Each section can be expanded to show the code blocks, click on 'Movement'.",
         action: () => {document.querySelector("[data-tour-elem='right-arrow']").classList.add("hide")}
     },
     {
@@ -46,14 +46,19 @@ const steps = [
     },
     {
         selector: '[data-tut="reactour_loadcode"]',
-        content: "And then load your program into the drone simulator by clicking 'load code'"
+        content: "And then load your program into the drone simulator by clicking 'load code'."
     },
     {
         selector: '[data-tut="reactour_simulator"]',
         content: "Now you can use the controls on the drone simulator to start and stop the simulation.",
         position: 'bottom'
+    },
+    {
+        selector: '[data-tut="reactour_save"]',
+        content: "And finally download your program to be uploaded and modified later."
     }
 ]
+
 function IDE({ isTourOpen, setIsTourOpen }) {
     const movement = ["forward", "backward", "left", "right", "up", "down"]
     const rotation = ["turn left", "turn right"]
