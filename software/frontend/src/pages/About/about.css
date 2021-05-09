@@ -17,3 +17,7 @@ html, body {
 .hidden-link:hover {
     color: black !important;
 }
+
+.h-max {
+    height: calc(100vh - 3rem) !important;
+}

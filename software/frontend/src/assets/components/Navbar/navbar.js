@@ -5,7 +5,7 @@ import './navbar.css';
 
 const myNavbar = () => {
     return (
-        <div>
+        <div className="h-12">
             <nav className="border-b">
                 <div className="mx-auto px-3">
                     <div className="flex items-center justify-between h-11">
