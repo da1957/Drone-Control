@@ -2,6 +2,7 @@ import IDE from '../../assets/components/IDE/Ide';
 import Simulator from '../../assets/components/Simulator/Simulator';
 import TourAlert from './TourAlert';
 import { useState, useEffect } from 'react';
+
 function App() {
       const [isTourOpen, setIsTourOpen] = useState(false)
       const [tourAlert, setTourAlert] = useState(false)

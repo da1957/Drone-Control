@@ -11,7 +11,7 @@ export const DraggableCodeBlock = ({ name }) => {
   const item = { w: 1, h: 1, x: 0, y: yPos, i: name }
 
   return (
-    <div className={className} aria-label={name} draggable={true} onClick={() => {
+    <div className={className} aria-label={`${name} block`} draggable={true} onClick={() => {
       dispatch({ type: "addItem", payload: { name: name, layoutItem: item, layout: [...state.layout, item]}})
     }} unselectable="on" onDragStart={e => e.dataTransfer.setData("blockType", name)}>
       {name}

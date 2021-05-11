@@ -1,10 +1,9 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import Grid from './Grid';
 import { createProgram } from './addCmds'
 
+//Cant render grid without state init in Ide.js
+//rendering is tested when Ide.js rendering is tested
 // it('renders Grid', () => {
-//   // render(<Grid />);
+//   render(<Grid />);
 // });
 
 it('creates program correctly', () => {
@@ -24,20 +23,37 @@ it('creates program correctly', () => {
   expect(createProgram(items, variableData)).toEqual(simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1)]"));
 });
 
-// it('creates looped program', () => {
-//   var items = ["for loop.0", "forward.1", "turn left.2", "end for.3"].map((i) => {
-//     return {
-//       i: i.toString(),
-//       x: 0,
-//       y: 0,
-//       w: 1,
-//       h: 1,
-//       isResizable: false,
-//     };
-//   });
+it('creates looped program', () => {
+  var items = ["for loop.0", "forward.1", "turn left.2", "end for.3"].map((i) => {
+    return {
+      i: i.toString(),
+      x: 0,
+      y: 0,
+      w: 1,
+      h: 1,
+      isResizable: false,
+    };
+  });
 
-//   expect(createProgram(items, { "for loop.0": { value: "2", variable: "i" }, "forward.1": { value: 1 }, "turn left.2": { value: 45 }, })).toEqual(simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45)]"));
-// })
+  expect(createProgram(items, { "for loop.0": { value: "2", variable: "i" }, "forward.1": { value: 1 }, "turn left.2": { value: 45 }, })).toEqual(
+    simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45)]"));
+})
+
+it('creates nested loop program', () => {
+  var items = ["for loop.0", "forward.1", "for loop.4", "turn left.2", "end for.3"].map((i) => {
+    return {
+      i: i.toString(),
+      x: 0,
+      y: 0,
+      w: 1,
+      h: 1,
+      isResizable: false,
+    };
+  });
+
+  expect(createProgram(items, { "for loop.0": { value: "3", variable: "i" }, "forward.1": { value: 2 }, "turn left.2": { value: 90 }, "for loop.4": { value: "2", variable: "j" } })).toEqual(
+    simple_program("[cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90),cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90),cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90),cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90)]"));
+})
 
 const simple_program = (cmds) => `import math
 import plot

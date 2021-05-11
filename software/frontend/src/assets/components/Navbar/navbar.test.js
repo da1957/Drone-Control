@@ -9,5 +9,6 @@ it('renders navbar', () => {
       <Navbar />)
     </BrowserRouter>
   );
+
   expect(screen.getByText('dronecontrol')).toBeInTheDocument();
 });

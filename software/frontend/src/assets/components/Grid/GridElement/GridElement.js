@@ -38,7 +38,7 @@ function GridElement(props) {
         }
 
         <div>
-          <button className="py-1 px-2 rounded-md bg-gray-700 text-gray-100 font-medium hover:bg-gray-600" onTouchStart={props.removeItem} onClick={props.removeItem}>remove</button>
+          <button aria-label="remove" className="py-1 px-2 rounded-md bg-gray-700 text-gray-100 font-medium hover:bg-gray-600" onTouchStart={props.removeItem} onClick={props.removeItem}>remove</button>
         </div>
       </div>
     </div>

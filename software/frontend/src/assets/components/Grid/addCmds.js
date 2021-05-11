@@ -106,7 +106,6 @@ export function createProgram(items, variableData) {
     }
 
     var cmdsString = "commands = [".concat(cmds, "]")
-    console.log(cmdsString)
 
     var program = addCmds(cmdsString)
 
