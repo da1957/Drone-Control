@@ -1,6 +1,6 @@
 const TourAlert = ({ setTourAlert, setIsTourOpen }) => {
     return (
-        <div className="bg-white flex items-center">
+        <div data-testid="tour" className="bg-white flex items-center">
             <div className="bg-gray-100 rounded flex items-start text-gray-700 mb-2 mx-auto shadow-lg">
                 <div className="w-1 self-stretch bg-blue-500">
                 </div>

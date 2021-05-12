@@ -6,8 +6,8 @@ import { createProgram } from './addCmds'
 //   render(<Grid />);
 // });
 
-it('creates program correctly', () => {
-  var items = ["forward.1", "turn left.2", "forward.3"].map((i) => {
+function getItems(items) {
+  return items.map((i) => {
     return {
       i: i.toString(),
       x: 0,
@@ -17,42 +17,56 @@ it('creates program correctly', () => {
       isResizable: false,
     };
   });
+}
+
+it('creates a program correctly', () => {
+  const items = getItems(["forward.1", "turn left.2", "forward.3"])
 
   var variableData = { "forward.1": { value: 1 }, "turn left.2": { value: 45 }, "forward.3": { value: 1 } }
 
   expect(createProgram(items, variableData)).toEqual(simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1)]"));
 });
 
-it('creates looped program', () => {
-  var items = ["for loop.0", "forward.1", "turn left.2", "end for.3"].map((i) => {
-    return {
-      i: i.toString(),
-      x: 0,
-      y: 0,
-      w: 1,
-      h: 1,
-      isResizable: false,
-    };
-  });
+it('creates a for loop program correctly', () => {
+  const items = getItems(["for loop.0", "forward.1", "turn left.2", "end for.3"])
 
-  expect(createProgram(items, { "for loop.0": { value: "2", variable: "i" }, "forward.1": { value: 1 }, "turn left.2": { value: 45 }, })).toEqual(
+  expect(createProgram(items, { "for loop.0": { value: "2", variable: "i" }, "forward.1": { value: 1 }, "turn left.2": { value: 45 } })).toEqual(
     simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45)]"));
 })
 
-it('creates nested loop program', () => {
-  var items = ["for loop.0", "forward.1", "for loop.4", "turn left.2", "end for.3"].map((i) => {
-    return {
-      i: i.toString(),
-      x: 0,
-      y: 0,
-      w: 1,
-      h: 1,
-      isResizable: false,
-    };
-  });
+it('creates a sequential for loop program correctly', () => {
+  const items = getItems(["forward.0", "for loop.1", "backward.2", "end for.3", "left.4", "for loop.5", "right.6", "end for.7", "up.8"])
 
-  expect(createProgram(items, { "for loop.0": { value: "3", variable: "i" }, "forward.1": { value: 2 }, "turn left.2": { value: 90 }, "for loop.4": { value: "2", variable: "j" } })).toEqual(
+  expect(createProgram(items, { "backward.2": {value: 1}, "up.8": {value: 1}, "end for.3": {value: 1}, "end for.7": {value: 1}, "for loop.1": {value: "2", variable: "i"}, "for loop.5": {value: "2", variable: "i"}, "forward.0": {value: 1}, "left.4": {value: 1}, "right.6": {value: 1} })).toEqual(
+    simple_program("[cmd.forward(1),cmd.backward(1),cmd.backward(1),cmd.backward(1),cmd.left(1),cmd.right(1),cmd.right(1),cmd.right(1),cmd.up(1)]"));
+})
+
+it('creates a nested for loop program correctly', () => {
+  const items = getItems(["for loop.0", "forward.1", "for loop.2", "turn left.3", "end for.4"])
+
+  expect(createProgram(items, { "for loop.0": { value: "3", variable: "i" }, "forward.1": { value: 2 }, "turn left.3": { value: 90 }, "for loop.2": { value: "2", variable: "j" } })).toEqual(
     simple_program("[cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90),cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90),cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90),cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90)]"));
+})
+
+it('creates a while loop program correctly', () => {
+  const items = getItems(["while.0", "forward.1", "turn left.2", "end while.3"])
+
+  expect(createProgram(items, { "end while.3": {value: 1}, "forward.1": {value: 1}, "turn left.2": {value: 45}, "while.0": {value: "3", variable: "i"} })).toEqual(
+    simple_program("[cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45),cmd.forward(1),cmd.turn_left(45)]")
+  )
+})
+it('creates a sequential while loop program correctly', () => {
+  const items = getItems(["forward.0", "while.1", "backward.2", "end while.3", "left.4", "while.5", "right.6", "end while.7", "up.8"])
+
+  expect(createProgram(items, { "backward.2": {value: 1}, "end while.3": {value: 1}, "end while.7": {value: 1}, "forward.0": {value: 1}, "left.4": {value: 1}, "right.6": {value: 1}, "up.8": {value: 1}, "while.1": {value: "3", variable: "i"}, "while.5": {value: "3", variable: "i"} })).toEqual(
+    simple_program("[cmd.forward(1),cmd.backward(1),cmd.backward(1),cmd.backward(1),cmd.left(1),cmd.right(1),cmd.right(1),cmd.right(1),cmd.up(1)]"));
+})
+
+it('creates a nested while loop program correctly', () => {
+  const items = getItems(["while.0", "forward.1", "while.2", "turn left.3", "end while.4"])
+
+  expect(createProgram(items, { "while.0": { value: "3", variable: "i" }, "forward.1": { value: 2 }, "turn left.3": { value: 90 }, "while.2": { value: "3", variable: "j" } })).toEqual(
+    simple_program("[cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90),cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90),cmd.forward(2),cmd.turn_left(90),cmd.turn_left(90),cmd.turn_left(90)]"));
 })
 
 const simple_program = (cmds) => `import math

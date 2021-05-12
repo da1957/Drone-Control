@@ -9,7 +9,7 @@ export function LoopVariableSelector({ item, variableData, onFormChange }) {
                     <div className="flex items-center px-3 bg-gray-600 text-gray-100 font-medium">
                         {item.i.split('.')[0] === "for loop" ?
                             <span>&#x2264;</span> :
-                            <span>&#x2265;</span>
+                            <span>&#60;</span>
                         }
                     </div>
                     <input className="p-1 bg-gray-100 text-gray-600 border-gray-200 border-2 outline-none placeholder-gray-500 focus:bg-white" data-item={item.i} data-type="value" type="text" placeholder="1" aria-label="value" value={variableData[item.i].value} onChange={onFormChange.bind(this)} />

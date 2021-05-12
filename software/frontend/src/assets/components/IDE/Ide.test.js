@@ -1,5 +1,6 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Ide from './Ide';
 
 it('renders Ide', () => {
@@ -15,16 +16,17 @@ it('allows sidebar sections to be expanded', () => {
 
   const { getByText } = render(<Ide isTourOpen={isTourOpen} setIsTourOpen={setIsTourOpen} />)
 
-  fireEvent.click(getByText('Movement'))
+  userEvent.click(getByText('Movement'))
   expect(getByText('forward')).toBeInTheDocument()
 
-  fireEvent.click(getByText('Rotation'))
+  userEvent.click(getByText('Rotation'))
   expect(getByText('turn left')).toBeInTheDocument()
 
-  fireEvent.click(getByText('Loops'))
+  userEvent.click(getByText('Loops'))
   expect(getByText('for loop')).toBeInTheDocument()
 })
 
+//This is also testing reducer, react-testing-library recommends testing the component that implements it
 it('allows code block to be added', () => {
   const isTourOpen = false
   const setIsTourOpen = () => {isTourOpen = !isTourOpen}
@@ -32,11 +34,17 @@ it('allows code block to be added', () => {
   const { getByText, getByLabelText } = render(<Ide isTourOpen={isTourOpen} setIsTourOpen={setIsTourOpen} />)
 
   //Expand movement section
-  fireEvent.click(getByText('Movement'))
+  userEvent.click(getByText('Movement'))
 
   //Click on forward block to add it
-  fireEvent.click(getByText('forward'))
+  userEvent.click(getByText('forward'))
 
   //Check code block exists
   expect(getByLabelText('forward block')).toBeInTheDocument()
 })
+
+//React-testing-library is unable to click on the remove button
+//I dont know why, but I do know it is more time efficient to manually test
+//the remove button rather than implement this unit test
+// it('allows code block to be removed', () => {
+// })
