@@ -140,24 +140,19 @@ class Grid extends React.Component {
     }
 
     loadBlocks = (event) => {
+        this.props.dispatch({type: "setState", payload: {count: 0, items: [], layout: [], variableData: {}}})
         const fileObj = event.target.files[0];
         const reader = new FileReader();
           
         let fileloaded = e => {
             const fileContents = e.target.result;
-            localStorage.removeItem("state")
-            localStorage.setItem("state", fileContents)
+            const state = JSON.parse(fileContents)
 
-            const JSONstate = localStorage.getItem("state")
-            if (JSONstate) {
-                let state = JSON.parse(JSONstate)
+            state.items = state.layout.sort((x, y) => {
+                return state.layout.find(obj => obj.i === x.i).y - state.layout.find(obj => obj.i === y.i).y
+            })
 
-                state.items = state.layout.sort((x, y) => {
-                    return state.layout.find(obj => obj.i === x.i).y - state.layout.find(obj => obj.i === y.i).y
-                })
-
-                this.props.dispatch({type: "setState", payload: state})
-            }
+            this.props.dispatch({type: "setState", payload: state})
         }
       
         fileloaded = fileloaded.bind(this);
@@ -169,7 +164,7 @@ class Grid extends React.Component {
         return (
             <div className="flex flex-col w-full bg-gray-600 rounded">
                 <a className="hidden" download = "program.drone" href={this.state.fileDownloadUrl} ref={e=>this.dofileDownload = e}>download</a>
-                <input type="file" className="hidden" multiple={false} accept=".drone" onChange={event => this.loadBlocks(event)} ref={e=>this.dofileUpload = e} />
+                <input type="file" className="hidden" multiple={false} accept=".drone" onChange={e => {this.loadBlocks(e); e.target.value = null}} ref={e => this.dofileUpload = e} />
                 <div className="py-1 bg-gray-500 rounded">
                     <div className="flex">
                         <div data-tut="reactour_save" className="flex justify-start ml-1">
