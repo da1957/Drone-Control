@@ -14,6 +14,8 @@ Drone Control is an interactive drone simulator where users of any age can learn
 
 Intended to support at least 50 concurrent users, scalable to more and to run on Chrome, IE/Edge, Firefox, Safari on Win and Mac. Javascript is used heavily to allow this to scale easily.
 
+Drone_Control.pdf file is the project portfolio.
+
 ## Usage
 
 #### Prerequisites
